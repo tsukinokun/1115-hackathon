@@ -1,0 +1,94 @@
+[
+  {
+    "id": "fuwatoro-omurice",
+    "title": "ふわとろオムライス",
+    "catch": "卵でくるんだ、いつもの安心",
+    "description": "失敗しても、上からケチャップで描けば大丈夫。",
+    "author": { "name": "たまご係" },
+    "coverImage": "/samples/omurice-cover.svg",
+    "photos": [
+      { "url": "/samples/omurice-cover.svg", "caption": "できあがり", "kind": "finished" },
+      { "url": "/samples/omurice-process-rice.svg", "caption": "ケチャップライスはパラっと", "kind": "process" },
+      { "url": "/samples/omurice-process-egg.svg", "caption": "卵は半熟で止める", "kind": "process" },
+      { "url": "/samples/omurice-finished-2.svg", "caption": "つくれぽ：ハートにしてみた", "kind": "finished" }
+    ],
+    "minutes": 20,
+    "servings": 1,
+    "tags": { "comfort": 3, "warm": 2, "sweet": 2, "safe": 2, "hearty": 1, "share": 1, "slow": 1 },
+    "ingredients": [
+      { "ingredientId": "egg", "name": "卵", "amount": "2個" },
+      { "ingredientId": "rice", "name": "冷やごはん", "amount": "茶碗1杯" },
+      { "ingredientId": "chicken", "name": "鶏もも", "amount": "80g" },
+      { "ingredientId": "onion", "name": "玉ねぎ", "amount": "1/4個" },
+      { "ingredientId": "ketchup", "name": "ケチャップ", "amount": "大さじ3" },
+      { "ingredientId": "milk", "name": "牛乳", "amount": "大さじ1" },
+      { "ingredientId": "butter", "name": "バター", "amount": "10g" },
+      { "name": "塩こしょう", "amount": "少々" }
+    ],
+    "steps": [
+      { "text": "鶏ももは1.5cm角に、玉ねぎはみじん切りにする。" },
+      { "text": "フライパンにバターの半量を溶かし、鶏ももを皮目から焼く。" },
+      { "text": "鶏の色が変わったら玉ねぎを入れ、しんなりするまで炒める。" },
+      { "text": "ケチャップを入れて、少し焦がすように水分を飛ばす。ここが香りの決め手。" },
+      { "text": "ごはんを入れてほぐしながら炒め、塩こしょうで味をととのえて皿に盛る。", "image": "/samples/omurice-process-rice.svg" },
+      { "text": "卵と牛乳をよく溶きほぐす。白身が残っていてもOK。" },
+      { "text": "残りのバターを強めの中火で溶かし、卵液を一気に流す。" },
+      { "text": "大きく3回ほど混ぜ、半熟のうちに火を止める。", "image": "/samples/omurice-process-egg.svg" },
+      { "text": "ごはんの上にすべらせてのせ、真ん中に切れ目を入れて開いたら完成。" }
+    ],
+    "createdAt": "2026-11-01T12:00:00Z"
+  },
+  {
+    "id": "butakimchi-don",
+    "title": "豚キムチ丼",
+    "catch": "5分で、元気のスイッチを入れる",
+    "author": { "name": "夜ふかし台所" },
+    "coverImage": null,
+    "photos": [],
+    "minutes": 8,
+    "servings": 1,
+    "tags": { "spicy": 3, "hearty": 3, "quick": 2, "umami": 2, "salty": 1, "solo": 1, "warm": 1, "adventurous": 1 },
+    "ingredients": [
+      { "ingredientId": "pork", "name": "豚こま", "amount": "100g" },
+      { "ingredientId": "kimchi", "name": "キムチ", "amount": "80g" },
+      { "ingredientId": "rice", "name": "冷やごはん", "amount": "どんぶり1杯" },
+      { "ingredientId": "egg", "name": "卵", "amount": "1個（黄身だけでも）" },
+      { "ingredientId": "negi", "name": "ねぎ", "amount": "少々" },
+      { "ingredientId": "sesame_oil", "name": "ごま油", "amount": "小さじ1" },
+      { "ingredientId": "soy_sauce", "name": "しょうゆ", "amount": "小さじ1" }
+    ],
+    "steps": [
+      { "text": "ごま油を熱したフライパンで豚こまを炒める。" },
+      { "text": "色が変わったらキムチを入れ、しょうゆをひと回しする。" },
+      { "text": "温めたごはんにのせ、真ん中に卵の黄身を落とす。" },
+      { "text": "ねぎを散らしたら完成。混ぜながら食べてね。" }
+    ],
+    "createdAt": "2026-11-05T21:30:00Z"
+  },
+  {
+    "id": "tomato-tofu-hiyashi",
+    "title": "トマトと豆腐の冷やし和え",
+    "catch": "火を使わない、すっきり一皿",
+    "author": { "name": "ベランダ菜園" },
+    "coverImage": "/samples/hiyashi-cover.svg",
+    "photos": [{ "url": "/samples/hiyashi-cover.svg", "caption": "大葉は手でちぎる派", "kind": "finished" }],
+    "minutes": 5,
+    "servings": 2,
+    "tags": { "light": 3, "cold": 3, "sour": 2, "quick": 3, "adventurous": 1, "salty": 1, "solo": 1 },
+    "ingredients": [
+      { "ingredientId": "tomato", "name": "トマト", "amount": "1個" },
+      { "ingredientId": "tofu", "name": "豆腐", "amount": "1/2丁" },
+      { "ingredientId": "cucumber", "name": "きゅうり", "amount": "1/2本" },
+      { "name": "大葉", "amount": "3枚" },
+      { "ingredientId": "ponzu", "name": "ポン酢", "amount": "大さじ1" },
+      { "name": "オリーブオイル", "amount": "大さじ1" }
+    ],
+    "steps": [
+      { "text": "豆腐はキッチンペーパーで包んで軽く水を切る。" },
+      { "text": "トマトはくし切りにし、きゅうりは叩いてひと口大にする。" },
+      { "text": "豆腐を手でくずして器に盛り、トマトときゅうりを重ねる。" },
+      { "text": "ポン酢とオリーブオイルを回しかけ、ちぎった大葉をのせて完成。" }
+    ],
+    "createdAt": "2026-11-10T08:15:00Z"
+  }
+]

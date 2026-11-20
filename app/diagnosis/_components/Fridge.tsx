@@ -1,0 +1,222 @@
+"use client";
+
+import { AnimatePresence, motion, useAnimate } from "motion/react";
+import { useEffect, useState } from "react";
+import type { Phase } from "./DiagnosisFlow";
+
+type Props = {
+  phase: Phase;
+  canOpen: boolean;
+  onOpen: () => void;
+  door: React.ReactNode;
+  interior: React.ReactNode;
+};
+
+export function Fridge({ phase, canOpen, onOpen, door, interior }: Props) {
+  const open = phase === "inside";
+  const [doorScope, animateDoor] = useAnimate<HTMLDivElement>();
+
+  const tryOpen = () => {
+    if (canOpen) onOpen();
+    // まだメモが残っているときは、扉がガタッとするだけ
+    else animateDoor(doorScope.current, { x: [0, -7, 5, -3, 1, 0] }, { duration: 0.45 });
+  };
+
+  return (
+    <motion.div
+      layout
+      className="relative min-h-0 w-full flex-1"
+      transition={{ type: "spring", stiffness: 160, damping: 22 }}
+    >
+      {/* 本体。待機中もブーンと少しだけ揺れている */}
+      <motion.div
+        className="fridge-body relative flex h-full flex-col rounded-[30px_36px_14px_18px/30px_32px_14px_16px] p-[7px]"
+        animate={
+          phase === "cooking"
+            ? { x: [0, -2, 2, -1.5, 1.5, 0], rotate: [0, -0.4, 0.4, 0] }
+            : { x: 0, rotate: [0, 0.18, -0.12, 0] }
+        }
+        transition={
+          phase === "cooking"
+            ? { duration: 0.32, repeat: Infinity }
+            : { duration: 5.5, repeat: Infinity, ease: "easeInOut" }
+        }
+      >
+        <Freezer />
+
+        {/* 冷蔵室 */}
+        <div className="relative mt-[6px] min-h-0 flex-1 [perspective:1400px]">
+          <div className="fridge-interior absolute inset-0 rounded-[10px_12px_10px_12px]">
+            <InteriorLight on={open} />
+            <div className="relative h-full">{interior}</div>
+            <ColdAir on={open} />
+          </div>
+
+          <motion.div
+            ref={doorScope}
+            className="absolute inset-0 origin-left [transform-style:preserve-3d]"
+            initial={false}
+            animate={{ rotateY: open ? -118 : 0 }}
+            transition={{ type: "spring", stiffness: open ? 60 : 110, damping: open ? 11 : 16 }}
+            style={{ pointerEvents: open ? "none" : "auto" }}
+          >
+            <div className="fridge-door absolute inset-0 rounded-[10px_16px_12px_10px] [backface-visibility:hidden]">
+              {door}
+              <Handle canOpen={canOpen && phase === "door"} onPull={tryOpen} disabled={phase !== "door"} />
+            </div>
+            {/* 扉の裏側 */}
+            <div className="fridge-door-back absolute inset-0 rounded-[16px_10px_10px_12px] [backface-visibility:hidden] [transform:rotateY(180deg)]" />
+          </motion.div>
+        </div>
+      </motion.div>
+
+      <Beep active={open} />
+      {/* 冷蔵庫の足と影 */}
+      <div aria-hidden className="absolute -bottom-2 left-[8%] right-[6%] h-3 rounded-[50%] bg-black/15 blur-[3px]" />
+    </motion.div>
+  );
+}
+
+function Freezer() {
+  return (
+    <div className="fridge-door relative h-[17%] min-h-[64px] shrink-0 rounded-[24px_30px_8px_10px/24px_26px_8px_10px]">
+      {/* 横向きの取っ手 */}
+      <div className="absolute bottom-3 left-[18%] h-[7px] w-[38%] rounded-full bg-[var(--chrome)] shadow-[0_2px_0_rgba(0,0,0,0.15)]" />
+      {/* 手書きっぽいロゴ */}
+      <span className="font-hand absolute right-5 top-3 rotate-[4deg] text-[0.7rem] tracking-widest text-ink/45">
+        hiyashi&nbsp;♡
+      </span>
+      {/* 動作中ランプ */}
+      <motion.span
+        aria-hidden
+        className="absolute left-5 top-4 h-1.5 w-1.5 rounded-full bg-[#5fd38d]"
+        animate={{ opacity: [1, 0.25, 1] }}
+        transition={{ duration: 2.4, repeat: Infinity, times: [0, 0.1, 0.2] }}
+      />
+      {/* 冷凍室に貼りっぱなしのマグネット */}
+      <motion.span
+        aria-hidden
+        className="absolute left-[64%] top-2 text-xl"
+        animate={{ rotate: [-8, -4, -8] }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+      >
+        🐟
+      </motion.span>
+    </div>
+  );
+}
+
+function Handle({ canOpen, onPull, disabled }: { canOpen: boolean; onPull: () => void; disabled: boolean }) {
+  return (
+    <motion.button
+      type="button"
+      aria-label={canOpen ? "冷蔵庫を開ける" : "まだメモが残っています"}
+      disabled={disabled}
+      onClick={onPull}
+      drag={disabled ? false : "x"}
+      dragConstraints={{ left: -40, right: 0 }}
+      dragElastic={0.15}
+      dragSnapToOrigin
+      onDragEnd={(_, info) => {
+        if (info.offset.x < -22) onPull();
+      }}
+      className="absolute right-2.5 top-[8%] z-20 flex h-[34%] w-6 cursor-grab touch-none items-center justify-center active:cursor-grabbing"
+    >
+      <motion.span
+        className="block h-full w-[9px] rounded-full bg-[var(--chrome)] shadow-[1px_2px_0_rgba(0,0,0,0.18)]"
+        animate={
+          canOpen
+            ? { boxShadow: ["0 0 0 0 rgba(255,170,60,0)", "0 0 0 6px rgba(255,170,60,0.45)", "0 0 0 0 rgba(255,170,60,0)"], x: [0, -3, 0] }
+            : { boxShadow: "1px 2px 0 rgba(0,0,0,0.18)", x: 0 }
+        }
+        transition={canOpen ? { duration: 1.4, repeat: Infinity } : { duration: 0.2 }}
+      />
+      <AnimatePresence>
+        {canOpen && (
+          <motion.span
+            initial={{ opacity: 0, x: 8 }}
+            animate={{ opacity: 1, x: [0, -6, 0] }}
+            exit={{ opacity: 0 }}
+            transition={{ x: { duration: 1.4, repeat: Infinity } }}
+            className="font-hand pointer-events-none absolute -left-16 top-1/2 -translate-y-1/2 -rotate-6 whitespace-nowrap text-sm text-[var(--tomato)]"
+          >
+            ← ひっぱる
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </motion.button>
+  );
+}
+
+/** 開けた瞬間にちらついてから点く庫内灯 */
+function InteriorLight({ on }: { on: boolean }) {
+  return (
+    <motion.div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[radial-gradient(ellipse_at_50%_0%,rgba(255,250,215,0.95),rgba(255,250,215,0)_70%)]"
+      initial={false}
+      animate={on ? { opacity: [0, 0.8, 0.15, 0.9, 0.5, 1] } : { opacity: 0 }}
+      transition={on ? { duration: 0.9, times: [0, 0.15, 0.3, 0.5, 0.65, 1], delay: 0.15 } : { duration: 0.3 }}
+    />
+  );
+}
+
+/** 冷気。重いので下へ流れ落ちる */
+function ColdAir({ on }: { on: boolean }) {
+  if (!on) return null;
+  const puffs = [8, 26, 47, 63, 81];
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 overflow-visible">
+      {puffs.map((left, i) => (
+        <motion.span
+          key={left}
+          className="absolute bottom-0 h-10 w-14 rounded-full bg-white/70 blur-md"
+          style={{ left: `${left}%` }}
+          initial={{ y: 0, opacity: 0, scale: 0.6 }}
+          animate={{ y: [0, 40, 90], opacity: [0, 0.7, 0], scale: [0.6, 1.1, 1.5] }}
+          transition={{ duration: 3 + (i % 3) * 0.7, repeat: Infinity, delay: i * 0.55, ease: "easeOut" }}
+        />
+      ))}
+    </div>
+  );
+}
+
+const BEEPS = ["ピピッ", "ピピッ…開けっぱなしだよ", "ひんやり〜", "ピピピッ！"];
+
+/** 扉を開けたままにしていると鳴る */
+function Beep({ active }: { active: boolean }) {
+  const [n, setN] = useState(-1);
+
+  useEffect(() => {
+    if (!active) return;
+    let count = 0;
+    const show = setInterval(() => setN(count++ % BEEPS.length), 11000);
+    return () => {
+      clearInterval(show);
+      setN(-1);
+    };
+  }, [active]);
+
+  // 表示から3.5秒で消す
+  useEffect(() => {
+    if (n < 0) return;
+    const t = setTimeout(() => setN(-1), 3500);
+    return () => clearTimeout(t);
+  }, [n]);
+
+  return (
+    <AnimatePresence>
+      {active && n >= 0 && (
+        <motion.div
+          key={n}
+          initial={{ opacity: 0, scale: 0.6, rotate: 6, y: 10 }}
+          animate={{ opacity: 1, scale: 1, rotate: -3, y: 0 }}
+          exit={{ opacity: 0, scale: 0.8, y: -8 }}
+          className="font-hand absolute -right-1 top-[14%] z-30 rounded-[14px_14px_4px_14px] border-2 border-ink bg-white px-2.5 py-1 text-xs text-ink shadow-[2px_2px_0_var(--ink)]"
+        >
+          {BEEPS[n]}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}

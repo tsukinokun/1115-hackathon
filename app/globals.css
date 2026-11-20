@@ -1,26 +1,116 @@
 @import "tailwindcss";
 
+/*
+ * キッチンという「場面」を描くページなので、配色はライト固定。
+ * （夜のキッチン＝ダークモードは今後の楽しみに取っておく）
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --background: #f4ead6;
+  --foreground: #3a2f2a;
+  --ink: #3a2f2a;
+  --tomato: #e8553a;
+  --fridge: #bfe3d3;
+  --fridge-shade: #96c7b3;
+  --fridge-light: #dff2e9;
+  --chrome: #e6e2da;
+  --interior: #f4f9fb;
+  --wood: #d9a066;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-ink: var(--ink);
+  --font-sans: var(--font-zen-maru), "Hiragino Maru Gothic ProN", sans-serif;
+  --font-hand: var(--font-klee), "Hiragino Mincho ProN", serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+@utility font-hand {
+  font-family: var(--font-hand);
+  font-weight: 600;
+}
+
+/* ---- キッチン ---- */
+.kitchen-wall {
+  background-color: var(--background);
+  background-image:
+    linear-gradient(rgba(150, 120, 90, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(150, 120, 90, 0.09) 1px, transparent 1px);
+  background-size: 34px 34px;
+  background-position: -3px 5px;
+}
+
+.kitchen-floor {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 58px, rgba(90, 50, 20, 0.12) 58px 60px),
+    linear-gradient(#c88f5e, #b97f50);
+  box-shadow: inset 0 6px 0 rgba(90, 50, 20, 0.15);
+}
+
+/* ---- 冷蔵庫 ---- */
+.fridge-body {
+  background: linear-gradient(100deg, var(--fridge-shade), var(--fridge) 12%, var(--fridge) 80%, var(--fridge-shade));
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.6),
+    6px 10px 0 rgba(80, 60, 40, 0.12);
+}
+
+.fridge-door {
+  background:
+    radial-gradient(120% 60% at 15% 10%, rgba(255, 255, 255, 0.45), transparent 55%),
+    linear-gradient(100deg, var(--fridge-light), var(--fridge) 40%, var(--fridge) 85%, var(--fridge-shade));
+  box-shadow:
+    inset 0 -3px 0 rgba(0, 0, 0, 0.06),
+    0 2px 0 rgba(0, 0, 0, 0.08);
+}
+
+.fridge-door-back {
+  background:
+    repeating-linear-gradient(0deg, transparent 0 22%, rgba(0, 0, 0, 0.07) 22% 24%),
+    #e9f1ee;
+}
+
+.fridge-interior {
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.06), transparent 8%, transparent 92%, rgba(0, 0, 0, 0.06)),
+    var(--interior);
+  box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* 棚の横スクロール。スクロールバーは隠し、右端をフェードさせて「続きがある」と見せる */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.shelf-fade {
+  mask: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+}
+
+/* ---- まな板 ---- */
+.cutting-board {
+  background:
+    repeating-linear-gradient(3deg, transparent 0 9px, rgba(120, 70, 30, 0.08) 9px 11px),
+    linear-gradient(160deg, #e8b680, var(--wood));
+  box-shadow:
+    inset 0 -4px 0 rgba(110, 60, 20, 0.25),
+    3px 6px 0 rgba(80, 50, 20, 0.2);
+}
+
+/* ---- レシート ---- */
+.receipt {
+  --zig: 10px;
+  /* 本体 ＋ 下端のギザギザ（レシートの切り口） */
+  mask:
+    linear-gradient(#000 0 0) top / 100% calc(100% - var(--zig)) no-repeat,
+    conic-gradient(from 135deg at top, #000 90deg, #0000 0) bottom / calc(2 * var(--zig)) var(--zig) repeat-x;
+  scrollbar-width: thin;
 }
