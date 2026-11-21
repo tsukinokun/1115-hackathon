@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Klee_One, Zen_Maru_Gothic } from "next/font/google";
+import { Klee_One, Noto_Color_Emoji, Zen_Maru_Gothic } from "next/font/google";
 import "./globals.css";
 
 // 和文フォントはサイズが大きいので preload せず、unicode-range で必要な分だけ読む
@@ -17,6 +17,14 @@ const klee = Klee_One({
   preload: false,
 });
 
+// 国旗用。Windows は国旗の絵文字を持っていないので、国旗を出すところ（.font-flag）だけこれを使う
+const flagFont = Noto_Color_Emoji({
+  variable: "--font-noto-emoji",
+  weight: "400",
+  subsets: ["emoji"],
+  preload: false,
+});
+
 export const metadata: Metadata = {
   title: "きょうのすき",
   description: "まだ「好き」に出会えていない誰かへ。冷蔵庫から見つける、今日のごはん。",
@@ -28,7 +36,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="ja" className={`${zenMaru.variable} ${klee.variable} h-full antialiased`}>
+    <html lang="ja" className={`${zenMaru.variable} ${klee.variable} ${flagFont.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

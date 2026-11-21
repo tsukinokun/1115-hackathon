@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { jitter } from "@/lib/jitter";
 import type { FridgeItem } from "./FridgeShelves";
-import { IngredientIcon } from "./IngredientIcon";
+import { IngredientIcon } from "@/app/_components/IngredientIcon";
 
 type Props = {
   ref: React.Ref<HTMLDivElement>;

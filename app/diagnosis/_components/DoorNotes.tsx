@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import { jitter, pick } from "@/lib/jitter";
 import type { Answers, Option, Question } from "@/lib/types";
-import { Photo } from "./Photo";
+import { Photo } from "@/app/_components/Photo";
 
 const NOTE_COLORS = ["#ffe27a", "#ffc2cf", "#bfe3ff", "#d3f2b0", "#fff8ea"];
 const MAGNET_COLORS = ["#ff6b4a", "#3c8dde", "#f2b134", "#59b37a", "#a46be0", "#ff8fb1"];

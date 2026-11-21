@@ -1,10 +1,12 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
+import Link from "next/link";
 import { useRef, useState } from "react";
 import { hash, jitter } from "@/lib/jitter";
 import type { DiagnosisResult, Recipe } from "@/lib/types";
-import { Photo } from "./Photo";
+import { CountryChips } from "@/app/_components/CountryChips";
+import { Photo } from "@/app/_components/Photo";
 
 type Props = { results: DiagnosisResult[]; onRetry: () => void };
 
@@ -64,6 +66,7 @@ export function RecipeCard({ results, onRetry }: Props) {
               <span>⏱ {recipe.minutes}分</span>
               <span>{recipe.servings}人分</span>
             </p>
+            <CountryChips tags={recipe.tags} className="mt-1.5" />
             {recipe.description && <p className="mt-2 text-[0.78rem] leading-relaxed">{recipe.description}</p>}
 
             <MatchMeter value={main.match} />
@@ -169,6 +172,14 @@ export function RecipeCard({ results, onRetry }: Props) {
             ↺ もう一回、冷蔵庫をあける
           </motion.button>
         </div>
+        <p className="mt-4 text-center">
+          <Link
+            href="/recipes/new"
+            className="font-hand text-[0.8rem] text-ink/60 underline decoration-[var(--tomato)] decoration-wavy underline-offset-4 hover:text-ink"
+          >
+            自分のレシピも貼ってみる
+          </Link>
+        </p>
       </motion.article>
 
       <Lightbox zoomed={zoomed} onClose={() => setZoomed(null)} />

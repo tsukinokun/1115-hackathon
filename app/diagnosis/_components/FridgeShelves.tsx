@@ -6,7 +6,7 @@ import { createPortal } from "react-dom";
 import { shelfOf, type Shelf } from "@/lib/ingredients";
 import { jitter } from "@/lib/jitter";
 import type { IngredientCategory } from "@/lib/types";
-import { IngredientIcon } from "./IngredientIcon";
+import { IngredientIcon } from "@/app/_components/IngredientIcon";
 
 /** 冷蔵庫に並ぶ1品。マスタの食材でも、自由入力で足したものでもよい */
 export type FridgeItem = {

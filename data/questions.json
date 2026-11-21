@@ -298,5 +298,81 @@
         }
       }
     ]
+  },
+  {
+    "id": "cuisine",
+    "kind": "mood",
+    "text": "どこの国の気分？",
+    "note": "ざっくりでOK",
+    "multiple": false,
+    "priority": 6,
+    "options": [
+      {
+        "id": "japan",
+        "label": "日本",
+        "emoji": "🍙",
+        "tags": {
+          "country_jp": 3
+        }
+      },
+      {
+        "id": "east_asia",
+        "label": "中華・韓国",
+        "emoji": "🥟",
+        "tags": {
+          "region_east_asia": 3
+        }
+      },
+      {
+        "id": "southeast_asia",
+        "label": "東南アジア",
+        "emoji": "🌿",
+        "tags": {
+          "region_southeast_asia": 3
+        }
+      },
+      {
+        "id": "south_asia_middle_east",
+        "label": "インド・中東",
+        "emoji": "🍛",
+        "tags": {
+          "region_south_asia": 3,
+          "region_middle_east": 3,
+          "region_central_asia": 2
+        }
+      },
+      {
+        "id": "europe",
+        "label": "ヨーロッパ",
+        "emoji": "🍝",
+        "tags": {
+          "region_europe": 3
+        }
+      },
+      {
+        "id": "americas",
+        "label": "アメリカ大陸",
+        "emoji": "🌮",
+        "tags": {
+          "region_north_america": 3,
+          "region_latin_america": 3
+        }
+      },
+      {
+        "id": "africa_oceania",
+        "label": "アフリカ・南の島",
+        "emoji": "🌍",
+        "tags": {
+          "region_africa": 3,
+          "region_oceania": 3
+        }
+      },
+      {
+        "id": "anywhere",
+        "label": "どこでも",
+        "emoji": "🌏",
+        "tags": {}
+      }
+    ]
   }
 ]
