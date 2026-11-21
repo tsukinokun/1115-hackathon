@@ -9,6 +9,7 @@ export type ActionError = Invalid | { ok: false; error: ErrorCode; message: stri
 export type ErrorCode =
   | "supabase_not_configured"
   | "unauthorized"
+  | "login_required"
   | "forbidden"
   | "not_found"
   | "invalid_reference"
@@ -27,7 +28,13 @@ export async function signedIn(accessToken: unknown) {
   const prefix = photoUrlPrefix(env.url) + `${data.user.id}/`;
   // 写真は「自分がアップロードしたもの」だけ指定できる
   const isOwnPhoto = (url: string) => url.startsWith(prefix) && !url.slice(prefix.length).includes("..");
-  return { sb, userId: data.user.id, isOwnPhoto };
+  return {
+    sb,
+    userId: data.user.id,
+    /** 匿名ログインのままか（Google などにまだ切り替えていない） */
+    isAnonymous: data.user.is_anonymous === true,
+    isOwnPhoto,
+  };
 }
 
 export function dbError(e: { code?: string; message?: string }, where = "posting"): ActionError {

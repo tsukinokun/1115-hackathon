@@ -10,10 +10,13 @@ import type {
   TagWeights,
 } from "../types";
 
+// profiles への埋め込みは、どの外部キーを通るかを必ず書く（!<制約名>）。
+// recipes と profiles は recipe_likes・stocks 経由でもつながっているので、書かないと
+// PostgREST が「どの道筋か分からない」（PGRST201）とエラーにする。
 export const INGREDIENT_SELECT = "id, name, reading, aliases, category, image";
 export const RECIPE_SELECT =
   "id, title, catch, description, author_name, cover_image, minutes, servings, tags, created_at," +
-  " author:profiles(name)," +
+  " author:profiles!recipes_author_id_fkey(name)," +
   " recipe_ingredients(position, ingredient_id, name, amount)," +
   " recipe_steps(position, text, image_url)," +
   " recipe_photos(url, caption, kind, created_at)";
@@ -129,7 +132,7 @@ export function toQuestion(row: QuestionRow): Question {
 
 /* ---------- スキ・コメント ---------- */
 
-export const COMMENT_SELECT = "id, recipe_id, body, photo_url, created_at, author:profiles(name)";
+export const COMMENT_SELECT = "id, recipe_id, body, photo_url, created_at, author:profiles!recipe_comments_user_id_fkey(name)";
 
 export type CommentRow = {
   id: number | string;
