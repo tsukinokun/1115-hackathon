@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useAnimate } from "motion/react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Phase } from "./DiagnosisFlow";
 
@@ -86,10 +87,11 @@ function Freezer() {
       <span className="font-hand absolute right-5 top-3 rotate-[4deg] text-[0.7rem] tracking-widest text-ink/45">
         hiyashi&nbsp;♡
       </span>
+      <PostPad />
       {/* 動作中ランプ */}
       <motion.span
         aria-hidden
-        className="absolute left-5 top-4 h-1.5 w-1.5 rounded-full bg-[#5fd38d]"
+        className="absolute bottom-3.5 right-6 h-1.5 w-1.5 rounded-full bg-[#5fd38d]"
         animate={{ opacity: [1, 0.25, 1] }}
         transition={{ duration: 2.4, repeat: Infinity, times: [0, 0.1, 0.2] }}
       />
@@ -103,6 +105,40 @@ function Freezer() {
         🐟
       </motion.span>
     </div>
+  );
+}
+
+/**
+ * 冷凍室に貼ったマグネット付きのメモ帳。診断しなくても、ここからすぐレシピを貼りに行ける。
+ * いちばん上の紙がときどき「ぺらっ」とめくれて、気づいてもらう。
+ */
+function PostPad() {
+  return (
+    <Link
+      href="/recipes/new"
+      aria-label="自分のレシピを冷蔵庫に貼る"
+      className="group absolute left-3 top-2.5 z-10 block w-[5.2rem] -rotate-[7deg]"
+    >
+      {/* 下の紙（束っぽさ） */}
+      <span aria-hidden className="absolute inset-0 translate-x-[3px] translate-y-[3px] rotate-[4deg] rounded-[2px] bg-[#f3e6c4] shadow-[1px_2px_3px_rgba(0,0,0,0.12)]" />
+      <motion.span
+        className="relative block origin-top rounded-[2px] bg-[#fff8ea] px-1.5 pb-1.5 pt-2.5 shadow-[1px_2px_3px_rgba(0,0,0,0.15)] group-hover:-rotate-2"
+        animate={{ rotateX: [0, 0, 28, -6, 0], y: [0, 0, -2, 0, 0] }}
+        transition={{ duration: 1.1, repeat: Infinity, repeatDelay: 5.5, times: [0, 0.2, 0.5, 0.75, 1] }}
+        style={{ transformPerspective: 300 }}
+      >
+        {/* マグネット */}
+        <span aria-hidden className="absolute -top-1.5 left-1/2 h-3.5 w-3.5 -translate-x-1/2 rounded-full bg-[#3c8dde] shadow-[0_1.5px_0_rgba(0,0,0,0.25)]" />
+        <span className="font-hand block text-[0.62rem] leading-tight text-ink">
+          レシピを
+          <br />
+          貼る
+          <span className="ml-0.5 inline-block text-[var(--tomato)] transition-transform group-hover:translate-x-0.5">✎</span>
+        </span>
+        {/* 罫線 */}
+        <span aria-hidden className="mt-0.5 block h-px bg-[rgba(60,141,222,0.25)]" />
+      </motion.span>
+    </Link>
   );
 }
 

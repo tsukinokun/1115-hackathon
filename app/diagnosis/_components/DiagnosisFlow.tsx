@@ -10,7 +10,7 @@ import { CuttingBoard } from "./CuttingBoard";
 import { DoorNotes } from "./DoorNotes";
 import { Fridge } from "./Fridge";
 import { FridgeShelves, type FridgeItem } from "./FridgeShelves";
-import { Kitchen } from "./Kitchen";
+import { Kitchen } from "@/app/_components/Kitchen";
 import { PantrySearch } from "./PantrySearch";
 import { RecipeCard } from "./RecipeCard";
 

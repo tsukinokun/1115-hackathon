@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useId, useMemo, useState } from "react";
 import { findByName, searchIngredients } from "@/lib/ingredients";
 import type { Ingredient, PantryItem } from "@/lib/types";
-import { IngredientIcon } from "./IngredientIcon";
+import { IngredientIcon } from "@/app/_components/IngredientIcon";
 
 type Props = {
   ingredients: Ingredient[];

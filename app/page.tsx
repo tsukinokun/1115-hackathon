@@ -12,6 +12,12 @@ export default function Home() {
         >
           🧊 冷蔵庫をのぞく
         </Link>
+        <Link
+          href="/recipes/new"
+          className="font-hand mt-5 block -rotate-1 text-sm text-ink/70 underline decoration-[var(--tomato)] decoration-wavy underline-offset-4 hover:text-ink"
+        >
+          自分のレシピを冷蔵庫に貼る
+        </Link>
       </div>
     </main>
   );

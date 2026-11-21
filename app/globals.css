@@ -24,6 +24,8 @@
   --color-ink: var(--ink);
   --font-sans: var(--font-zen-maru), "Hiragino Maru Gothic ProN", sans-serif;
   --font-hand: var(--font-klee), "Hiragino Mincho ProN", serif;
+  /* 国旗（Windows は国旗の絵文字を持っていない） */
+  --font-flag: var(--font-noto-emoji), "Apple Color Emoji", sans-serif;
 }
 
 body {
@@ -93,6 +95,23 @@ body {
 }
 .shelf-fade {
   mask: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+}
+
+/* ---- 投稿ノート ---- */
+.notebook {
+  background:
+    linear-gradient(90deg, transparent 22px, rgba(232, 85, 58, 0.35) 22px 24px, transparent 24px),
+    repeating-linear-gradient(transparent 0 27px, rgba(60, 141, 222, 0.16) 27px 28px),
+    #fffdf6;
+  border-radius: 4px 6px 4px 18px;
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.04),
+    4px 10px 22px rgba(80, 60, 40, 0.18);
+}
+
+/* 罫線に沿って書ける textarea */
+.lined-input {
+  background-image: repeating-linear-gradient(transparent 0 calc(1.75rem - 1px), rgba(58, 47, 42, 0.14) calc(1.75rem - 1px) 1.75rem);
 }
 
 /* ---- まな板 ---- */
