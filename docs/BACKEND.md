@@ -25,6 +25,7 @@
 ## フロントからの使い方（投稿）
 
 ログイン画面は不要です。最初の投稿のときに匿名ログインします。
+レシピ投稿画面（`/recipes/new`）は `app/recipes/new/_lib/submitRecipe.ts` からこの仕組みを使っています。Supabase 未設定のときは、これまでどおりブラウザに仮保存します。
 
 ```tsx
 "use client";
@@ -69,9 +70,10 @@ await updateProfileName(token!, "はなこ");
 
 ## データ
 
-- `data/recipes.json`: もとの3品 ＋ 海外料理18品（作者「せかいの台所」）。国名と国旗は `description` の先頭に書いています
+- `data/recipes.json`: もとの3品 ＋ 海外料理18品（作者「せかいの台所」）。国は `country_xx`（重み3）と `region_xx`（重み2）のタグで持ちます（`lib/countries.ts` の `countryTags` と同じ付け方）。レシピカードの国旗スタンプはこのタグから出ます
 - `data/ingredients.json`: 海外料理に必要な食材と調味料を29件追加（調味料は category `seasoning` なので、診断の一致率の分母に入りません）
-- レシピの `tags` は質問で使われているタグだけを使っています（テストでチェック）
+- レシピの `tags` は、質問で使われているタグと国・地域のタグだけを使っています（テストでチェック）
+- `data/*.json` を変えたら、`npm run db:seed` → Supabase の SQL Editor で `supabase/seed.sql` を流し直してください。流し直さないと、Supabase を読む環境では古いデータのままです
 
 ## 開発
 
