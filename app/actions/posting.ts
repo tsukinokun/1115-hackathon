@@ -1,8 +1,8 @@
 "use server";
 
 import { updateTag } from "next/cache";
-import { dbError, err, signedIn, type ActionError } from "@/lib/actions/auth";
 import { CACHE_TAGS } from "@/lib/repository";
+import { dbError, err, signedIn, type ActionError } from "@/lib/supabase/session";
 import { validateIngredient, validatePhoto, validateProfileName, validateRecipe } from "@/lib/posting/validate";
 
 // 投稿系の Server Actions。クライアントからはこう呼ぶ:
@@ -14,7 +14,8 @@ import { validateIngredient, validatePhoto, validateProfileName, validateRecipe 
 // 書き込みはユーザー本人の権限で行うので、他人の名義では書けない（RLS）。
 // 成功したら updateTag でキャッシュを捨てるので、次の表示から新しいデータが出る。
 
-export type { ActionError };
+// 本人確認とエラーの言い換えは lib/supabase/session.ts（reactions.ts と共通）
+export type { ActionError } from "@/lib/supabase/session";
 
 /** レシピを投稿する */
 export async function createRecipe(accessToken: string, input: unknown): Promise<{ ok: true; id: string } | ActionError> {

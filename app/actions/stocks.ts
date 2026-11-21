@@ -1,6 +1,6 @@
 "use server";
 
-import { dbError, err, signedIn, type ActionError } from "@/lib/actions/auth";
+import { dbError, err, signedIn, type ActionError } from "@/lib/supabase/session";
 import { RECIPE_SELECT, toRecipe, type RecipeRow } from "@/lib/supabase/mappers";
 import type { Recipe } from "@/lib/types";
 
@@ -26,7 +26,7 @@ export async function addStock(accessToken: string, recipeId: unknown): Promise<
   if (!isRecipeId(recipeId)) return err("not_found", "レシピが見つかりません");
   const { error } = await auth.sb.from("stocks").insert({ user_id: auth.userId, recipe_id: recipeId });
   if (!error || error.code === "23505") return { ok: true }; // 23505 = もうストック済み
-  return error.code === "23503" ? err("not_found", "レシピが見つかりません") : dbError(error);
+  return error.code === "23503" ? err("not_found", "レシピが見つかりません") : dbError(error, "stocks");
 }
 
 /** ストックから外す（入っていなくても ok） */
@@ -35,7 +35,7 @@ export async function removeStock(accessToken: string, recipeId: unknown): Promi
   if ("ok" in auth) return auth;
   if (!isRecipeId(recipeId)) return { ok: true };
   const { error } = await auth.sb.from("stocks").delete().eq("user_id", auth.userId).eq("recipe_id", recipeId);
-  return error ? dbError(error) : { ok: true };
+  return error ? dbError(error, "stocks") : { ok: true };
 }
 
 /** 自分のストック一覧（新しい順）。匿名ユーザーは空 */
@@ -48,7 +48,7 @@ export async function listStocks(accessToken: string): Promise<{ ok: true; stock
     .select(`created_at, recipe:recipes(${RECIPE_SELECT})`)
     .eq("user_id", auth.userId)
     .order("created_at", { ascending: false });
-  if (error) return dbError(error);
+  if (error) return dbError(error, "stocks");
   const rows = (data ?? []) as unknown as { created_at: string; recipe: RecipeRow | null }[];
   return {
     ok: true,

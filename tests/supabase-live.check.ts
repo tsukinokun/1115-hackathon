@@ -108,10 +108,12 @@ describe(`Supabase (${new URL(URL_).host})`, () => {
       expect(r.ingredients.map((i) => i.name)).toEqual(["卵", "しょうゆ"]);
     });
 
-    it("つくれぽ: 自分の名義は OK、他人の名義は NG", async () => {
+    it("つくれぽ: 自分の名義・自分の写真は OK、他人の名義や外部の画像は NG", async () => {
       const url = me.storage.from(PHOTO_BUCKET).getPublicUrl(photoPath).data.publicUrl;
       expect((await me.from("recipe_photos").insert({ recipe_id: recipeId, url, kind: "finished", posted_by: uid })).error).toBeNull();
       expect((await me.from("recipe_photos").insert({ recipe_id: recipeId, url, kind: "finished", posted_by: OTHER })).error).not.toBeNull();
+      // 外部サイトの画像 URL は DB でも拒否（supabase/02_login_stocks.sql の is_own_photo）
+      expect((await me.from("recipe_photos").insert({ recipe_id: recipeId, url: "https://evil.example/x.jpg", kind: "finished", posted_by: uid })).error).not.toBeNull();
     });
 
     it("ストック: 匿名ユーザーは追加できない（Google ログインが必要）", async () => {

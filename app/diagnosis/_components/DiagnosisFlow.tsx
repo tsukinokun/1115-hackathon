@@ -4,7 +4,7 @@ import { AnimatePresence, MotionConfig, motion } from "motion/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { diagnose } from "@/lib/diagnose";
 import { pantryKey, sortByPopularity } from "@/lib/ingredients";
-import type { Answers, Ingredient, PantryItem, Question, Recipe } from "@/lib/types";
+import type { Answers, Ingredient, PantryItem, Question, Recipe, ReactionCounts } from "@/lib/types";
 import { CookingTransition } from "./CookingTransition";
 import { CuttingBoard } from "./CuttingBoard";
 import { DoorNotes } from "./DoorNotes";
@@ -21,6 +21,8 @@ type Props = {
   questions: Question[];
   recipes: Recipe[];
   ingredients: Ingredient[];
+  /** レシピごとのスキ・コメント数 */
+  counts: ReactionCounts;
 };
 
 const toItem = (p: PantryItem, master?: Ingredient): FridgeItem => ({
@@ -31,7 +33,7 @@ const toItem = (p: PantryItem, master?: Ingredient): FridgeItem => ({
   image: master?.image,
 });
 
-export function DiagnosisFlow({ questions, recipes, ingredients }: Props) {
+export function DiagnosisFlow({ questions, recipes, ingredients, counts }: Props) {
   const [phase, setPhase] = useState<Phase>("door");
   const [answers, setAnswers] = useState<Answers>({});
   const [pantry, setPantry] = useState<PantryItem[]>([]);
@@ -139,7 +141,7 @@ export function DiagnosisFlow({ questions, recipes, ingredients }: Props) {
         </div>
 
         <AnimatePresence>
-          {phase === "result" && results.length > 0 && <RecipeCard results={results} onRetry={reset} />}
+          {phase === "result" && results.length > 0 && <RecipeCard results={results} counts={counts} onRetry={reset} />}
         </AnimatePresence>
       </Kitchen>
     </MotionConfig>

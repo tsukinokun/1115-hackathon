@@ -1,9 +1,11 @@
-// Server Actions 共通: 呼び出したユーザーの確認とエラーの形。
-// ここは "use server" ファイルではない（ブラウザから直接呼ばれないように）。
-import type { Invalid } from "../posting/validate";
-import { getSupabaseEnv, photoUrlPrefix } from "../supabase/env";
-import { createUserClient } from "../supabase/server";
+import type { Invalid } from "@/lib/posting/validate";
+import { getSupabaseEnv, photoUrlPrefix } from "./env";
+import { createUserClient } from "./server";
 
+// Server Actions（app/actions/*.ts）で共通に使う「本人確認」と「エラーの言い換え」。
+// "use server" のファイルから export すると外から呼べる口になってしまうので、普通のモジュールに置く。
+
+export type ActionError = Invalid | { ok: false; error: ErrorCode; message: string };
 export type ErrorCode =
   | "supabase_not_configured"
   | "unauthorized"
@@ -12,8 +14,6 @@ export type ErrorCode =
   | "not_found"
   | "invalid_reference"
   | "server_error";
-
-export type ActionError = Invalid | { ok: false; error: ErrorCode; message: string };
 
 export const err = (error: ErrorCode, message: string): ActionError => ({ ok: false, error, message });
 
@@ -26,24 +26,25 @@ export async function signedIn(accessToken: unknown) {
   const { data, error } = await sb.auth.getUser(accessToken);
   if (error || !data.user) return err("unauthorized", "ログインし直してください");
   const prefix = photoUrlPrefix(env.url) + `${data.user.id}/`;
+  // 写真は「自分がアップロードしたもの」だけ指定できる
+  const isOwnPhoto = (url: string) => url.startsWith(prefix) && !url.slice(prefix.length).includes("..");
   return {
     sb,
     userId: data.user.id,
     /** 匿名ログインのままか（Google などにまだ切り替えていない） */
     isAnonymous: data.user.is_anonymous === true,
-    /** 写真は「自分がアップロードしたもの」だけ指定できる */
-    isOwnPhoto: (url: string) => url.startsWith(prefix) && !url.slice(prefix.length).includes(".."),
+    isOwnPhoto,
   };
 }
 
-export function dbError(e: { code?: string; message?: string }): ActionError {
+export function dbError(e: { code?: string; message?: string }, where = "posting"): ActionError {
   switch (e.code) {
     case "42501": // RLS / 権限
       return err("forbidden", "この操作はできません");
     case "23503": // 外部キー
       return err("invalid_reference", "存在しない食材やレシピが指定されています");
     default:
-      console.error("[actions] database error", e);
+      console.error(`[${where}] database error`, e);
       return err("server_error", "保存に失敗しました。時間をおいて試してください");
   }
 }

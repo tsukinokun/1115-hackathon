@@ -12,15 +12,19 @@
 | ログイン状態（React フック） | `lib/supabase/useAuth.ts` |
 | 入力チェック | `lib/posting/validate.ts` |
 | テーブル定義・RLS・投稿用関数・Storage | `supabase/schema.sql` |
-| Google ログイン用の修正・ストックのテーブル | `supabase/02_login_stocks.sql` |
+| Google ログイン用の修正・ストックのテーブル・写真 URL の制限 | `supabase/02_login_stocks.sql` |
 | 初期データ | `supabase/seed.sql`（`npm run db:seed` で `data/*.json` から生成） |
+| スキ・コメント（書き込み） | `app/actions/reactions.ts`（Server Actions）。ブラウザからは `lib/reactions/client.ts` 経由 |
+| スキ数・コメント（読み込み） | `lib/reactions/read.ts`。Supabase が無ければ `data/reactions.json`（仮データ） |
+| Server Actions 共通の本人確認 | `lib/supabase/session.ts` |
 
 - 読み込みは数分キャッシュします。投稿した直後は Server Action がキャッシュを捨てるので、次の表示から新しいデータが出ます。
 - Supabase がエラーを返したときもローカル JSON に切り替えるので、デモ中に画面が止まりません（サーバーのログにエラーが出ます）。
 
 ## Supabase のセットアップ
 
-1. SQL Editor で `supabase/schema.sql` → `supabase/02_login_stocks.sql` → `supabase/seed.sql` の順に実行する（すでに schema.sql を流した環境では、`02_login_stocks.sql` だけ追加で流せばよい）
+1. SQL Editor で `supabase/schema.sql` → `supabase/02_login_stocks.sql` → `supabase/seed.sql` の順に実行する
+   - すでに schema.sql を流した環境では、`supabase/migrations/20261121_likes_comments.sql`（スキ・コメント）→ `supabase/02_login_stocks.sql` の順に追加で流せばよい（どちらも何度流しても大丈夫）
 2. Authentication → Sign In / Providers → **Allow anonymous sign-ins** を ON にする（投稿に必要）
 3. Google ログイン（ストックに必要）は下の「Google ログインの設定」
 4. `.env.example` を `.env.local` にコピーして URL と anon キーを入れる。Vercel でも同じ2つを Environment Variables に入れる
@@ -101,11 +105,26 @@ await updateProfileName(token!, "はなこ");
 - 写真は本人がアップロードしたもの（`recipe-photos/<自分のid>/...`）しか指定できません。5MB まで、jpeg/png/webp/gif
 - Supabase 未設定のとき `ensureSignedIn()` は `null` を返します。投稿ボタンを隠すのに使えます
 
+## スキ（いいね）・コメント
+
+- テーブル: `recipe_likes`（1人1レシピ1回。主キー `(recipe_id, user_id)`）と `recipe_comments`（本文1〜300文字、写真は任意）。件数はビュー `recipe_reaction_counts`
+- RLS はほかと同じ「だれでも読める / 書けるのは本人だけ」。コメントの写真も本人がアップロードしたものだけ
+- **すでに schema.sql を流した Supabase には、`supabase/migrations/20261121_likes_comments.sql` を SQL Editor で1回流す**（何度流しても大丈夫）。新しく作るときは schema.sql だけでよい
+- 画面: レシピページ `/recipes/[id]`（スキ・ひとことの入口）、コメントページ `/recipes/[id]/comments`。診断結果のレシートにもスキと入口がある
+- Supabase 未設定のときは、スキもコメントもこの端末の localStorage に仮保存（写真は縮めて data URL で保存）。件数とサンプルのコメントは `data/reactions.json`
+
+```tsx
+import { toggleLike, postComment, getMyLikes } from "@/lib/reactions/client";
+const res = await toggleLike("gapao", /* いまスキしているか */ false, /* いまの数 */ 9); // { ok, liked, count }
+await postComment({ recipeId: "gapao", body: "おいしかった", photo: file, name: "はなこ" });
+```
+
 ## セキュリティ
 
 - 書き込みはすべてユーザー本人の権限で行い、RLS が本人以外の名義を拒否します（service_role キーは使っていません）
 - レシピ投稿は `create_recipe` 関数で、本体・材料・手順を 1 トランザクションで入れます。途中で失敗したら何も残りません
-- 匿名ログインなので、だれでも投稿できます。荒らし対策（通報・削除画面など）はありません
+- 写真の URL（カバー・手順・つくれぽ・コメント）は、本人がアップロードした写真だけを指定できます。アプリでも DB（`public.is_own_photo`）でも確かめています
+- 匿名ログインでも投稿・スキ・コメントはできます（ストックだけは Google ログインが必要）。匿名ユーザーは作り直せるので、スキの水増しは防げません。荒らし対策（通報・削除画面など）はありません
 
 ## データ
 

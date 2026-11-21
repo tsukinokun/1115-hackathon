@@ -1,0 +1,59 @@
+{
+  "_note": "Supabase 未接続のときに見せる仮のスキ数とコメント。DB には入らない（seed 対象外）。",
+  "likes": {
+    "fuwatoro-omurice": 12,
+    "butakimchi-don": 8,
+    "tomato-tofu-hiyashi": 5,
+    "shakshuka": 3,
+    "gapao": 9,
+    "carbonara": 7,
+    "chicken-curry": 6,
+    "pain-perdu": 4
+  },
+  "comments": [
+    {
+      "id": "sample-1",
+      "recipeId": "fuwatoro-omurice",
+      "author": { "name": "はなこ" },
+      "body": "卵、半熟で止めるの勇気いるけど本当においしい！ケチャップで顔描きました。",
+      "photo": "/samples/omurice-finished-2.svg",
+      "createdAt": "2026-11-18T19:20:00Z"
+    },
+    {
+      "id": "sample-2",
+      "recipeId": "fuwatoro-omurice",
+      "author": { "name": "夜ふかし台所" },
+      "body": "鶏ももの代わりにウインナーでもいけた。",
+      "createdAt": "2026-11-19T22:05:00Z"
+    },
+    {
+      "id": "sample-3",
+      "recipeId": "fuwatoro-omurice",
+      "author": { "name": "ななしの台所" },
+      "body": "子どもが「またこれ」って言ってくれた。",
+      "createdAt": "2026-11-20T12:40:00Z"
+    },
+    {
+      "id": "sample-4",
+      "recipeId": "butakimchi-don",
+      "author": { "name": "ひとり暮らし3年目" },
+      "body": "疲れて帰った日にこれ。5分は本当だった。黄身は必須。",
+      "createdAt": "2026-11-17T21:10:00Z"
+    },
+    {
+      "id": "sample-5",
+      "recipeId": "tomato-tofu-hiyashi",
+      "author": { "name": "ベランダ菜園" },
+      "body": "うちのミニトマトで作ってみました。大葉が合う〜",
+      "photo": "/samples/hiyashi-cover.svg",
+      "createdAt": "2026-11-16T12:00:00Z"
+    },
+    {
+      "id": "sample-6",
+      "recipeId": "gapao",
+      "author": { "name": "旅の途中" },
+      "body": "バジルがなくて大葉で代用。それでもタイの屋台を思い出した。",
+      "createdAt": "2026-11-15T18:30:00Z"
+    }
+  ]
+}

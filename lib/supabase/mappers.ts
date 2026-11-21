@@ -1,5 +1,14 @@
 // Supabase の行 → lib/types.ts の形。null は「無し」として省く（JSON データと同じ形になる）
-import type { Ingredient, IngredientCategory, Question, QuestionKind, Recipe, RecipePhoto, TagWeights } from "../types";
+import type {
+  Ingredient,
+  IngredientCategory,
+  Question,
+  QuestionKind,
+  Recipe,
+  RecipeComment,
+  RecipePhoto,
+  TagWeights,
+} from "../types";
 
 export const INGREDIENT_SELECT = "id, name, reading, aliases, category, image";
 export const RECIPE_SELECT =
@@ -115,5 +124,29 @@ export function toQuestion(row: QuestionRow): Question {
       ...(o.emoji ? { emoji: o.emoji } : {}),
       ...(o.image ? { image: o.image } : {}),
     })),
+  };
+}
+
+/* ---------- スキ・コメント ---------- */
+
+export const COMMENT_SELECT = "id, recipe_id, body, photo_url, created_at, author:profiles(name)";
+
+export type CommentRow = {
+  id: number | string;
+  recipe_id: string;
+  body: string;
+  photo_url: string | null;
+  created_at: string;
+  author: { name: string } | null;
+};
+
+export function toComment(row: CommentRow): RecipeComment {
+  return {
+    id: String(row.id),
+    recipeId: row.recipe_id,
+    author: { name: row.author?.name ?? DEFAULT_AUTHOR },
+    body: row.body,
+    ...(row.photo_url ? { photo: row.photo_url } : {}),
+    createdAt: toIsoString(row.created_at),
   };
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { cacheLife } from "next/cache";
 import { getIngredients, getQuestions, getRecipes } from "@/lib/repository";
+import { getReactionCounts } from "@/lib/reactions/read";
 import { selectQuestions } from "@/lib/selectQuestions";
 import { DiagnosisFlow } from "./_components/DiagnosisFlow";
 
@@ -18,6 +19,11 @@ async function getDoorQuestions() {
 }
 
 export default async function DiagnosisPage() {
-  const [questions, recipes, ingredients] = await Promise.all([getDoorQuestions(), getRecipes(), getIngredients()]);
-  return <DiagnosisFlow questions={questions} recipes={recipes} ingredients={ingredients} />;
+  const [questions, recipes, ingredients, counts] = await Promise.all([
+    getDoorQuestions(),
+    getRecipes(),
+    getIngredients(),
+    getReactionCounts(),
+  ]);
+  return <DiagnosisFlow questions={questions} recipes={recipes} ingredients={ingredients} counts={counts} />;
 }
