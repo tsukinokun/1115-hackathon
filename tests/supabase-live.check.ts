@@ -66,7 +66,7 @@ describe(`Supabase (${new URL(URL_).host})`, () => {
   describe("投稿（匿名ログイン）", () => {
     beforeAll(async () => {
       const sb = createClient(URL_, KEY, opts);
-      const { data, error } = await sb.auth.signInAnonymously({ options: { data: { name: "動作確認" } } });
+      const { data, error } = await sb.auth.signInAnonymously({ options: { data: { display_name: "動作確認" } } });
       if (error || !data.session) throw new Error(`匿名ログインに失敗: ${error?.message}（Authentication で Allow anonymous sign-ins を ON に）`);
       uid = data.session.user.id;
       me = sb; // ログインしたクライアント（DB も Storage もこのユーザーとして動く）
@@ -112,6 +112,12 @@ describe(`Supabase (${new URL(URL_).host})`, () => {
       const url = me.storage.from(PHOTO_BUCKET).getPublicUrl(photoPath).data.publicUrl;
       expect((await me.from("recipe_photos").insert({ recipe_id: recipeId, url, kind: "finished", posted_by: uid })).error).toBeNull();
       expect((await me.from("recipe_photos").insert({ recipe_id: recipeId, url, kind: "finished", posted_by: OTHER })).error).not.toBeNull();
+    });
+
+    it("ストック: 匿名ユーザーは追加できない（Google ログインが必要）", async () => {
+      const res = await me.from("stocks").insert({ user_id: uid, recipe_id: "gapao" });
+      expect(res.error, "stocks テーブルが無い場合は supabase/02_login_stocks.sql を流してください").not.toBeNull();
+      expect(res.error?.code).toBe("42501");
     });
 
     it("なりすまし・他人のレシピの削除はできない", async () => {

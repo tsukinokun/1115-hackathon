@@ -1,16 +1,9 @@
 "use server";
 
 import { updateTag } from "next/cache";
+import { dbError, err, signedIn, type ActionError } from "@/lib/actions/auth";
 import { CACHE_TAGS } from "@/lib/repository";
-import { getSupabaseEnv, photoUrlPrefix } from "@/lib/supabase/env";
-import { createUserClient } from "@/lib/supabase/server";
-import {
-  validateIngredient,
-  validatePhoto,
-  validateProfileName,
-  validateRecipe,
-  type Invalid,
-} from "@/lib/posting/validate";
+import { validateIngredient, validatePhoto, validateProfileName, validateRecipe } from "@/lib/posting/validate";
 
 // 投稿系の Server Actions。クライアントからはこう呼ぶ:
 //
@@ -21,42 +14,7 @@ import {
 // 書き込みはユーザー本人の権限で行うので、他人の名義では書けない（RLS）。
 // 成功したら updateTag でキャッシュを捨てるので、次の表示から新しいデータが出る。
 
-export type ActionError = Invalid | { ok: false; error: ErrorCode; message: string };
-type ErrorCode =
-  | "supabase_not_configured"
-  | "unauthorized"
-  | "forbidden"
-  | "not_found"
-  | "invalid_reference"
-  | "server_error";
-
-const err = (error: ErrorCode, message: string): ActionError => ({ ok: false, error, message });
-
-/** トークンからユーザーを確かめて、本人として書き込むクライアントを返す */
-async function signedIn(accessToken: unknown) {
-  const env = getSupabaseEnv();
-  if (!env) return err("supabase_not_configured", "Supabase が設定されていません");
-  if (typeof accessToken !== "string" || !accessToken) return err("unauthorized", "ログインしてください");
-  const sb = createUserClient(accessToken)!;
-  const { data, error } = await sb.auth.getUser(accessToken);
-  if (error || !data.user) return err("unauthorized", "ログインし直してください");
-  const prefix = photoUrlPrefix(env.url) + `${data.user.id}/`;
-  // 写真は「自分がアップロードしたもの」だけ指定できる
-  const isOwnPhoto = (url: string) => url.startsWith(prefix) && !url.slice(prefix.length).includes("..");
-  return { sb, userId: data.user.id, isOwnPhoto };
-}
-
-function dbError(e: { code?: string; message?: string }): ActionError {
-  switch (e.code) {
-    case "42501": // RLS / 権限
-      return err("forbidden", "この操作はできません");
-    case "23503": // 外部キー
-      return err("invalid_reference", "存在しない食材やレシピが指定されています");
-    default:
-      console.error("[posting] database error", e);
-      return err("server_error", "保存に失敗しました。時間をおいて試してください");
-  }
-}
+export type { ActionError };
 
 /** レシピを投稿する */
 export async function createRecipe(accessToken: string, input: unknown): Promise<{ ok: true; id: string } | ActionError> {

@@ -7,9 +7,12 @@
 | 読み込み（質問・レシピ・食材） | `lib/repository.ts`。Supabase があればそこから、無ければ `data/*.json` |
 | DB → アプリの型の変換 | `lib/supabase/mappers.ts` |
 | 投稿（レシピ・つくれぽ写真・食材・名前） | `app/actions/posting.ts`（Server Actions） |
-| 匿名ログイン・写真アップロード（ブラウザ） | `lib/supabase/browser.ts` |
+| ストック（あとで作りたいレシピ） | `app/actions/stocks.ts`（Server Actions） |
+| 匿名ログイン・Google ログイン・写真アップロード（ブラウザ） | `lib/supabase/browser.ts` |
+| ログイン状態（React フック） | `lib/supabase/useAuth.ts` |
 | 入力チェック | `lib/posting/validate.ts` |
 | テーブル定義・RLS・投稿用関数・Storage | `supabase/schema.sql` |
+| Google ログイン用の修正・ストックのテーブル | `supabase/02_login_stocks.sql` |
 | 初期データ | `supabase/seed.sql`（`npm run db:seed` で `data/*.json` から生成） |
 
 - 読み込みは数分キャッシュします。投稿した直後は Server Action がキャッシュを捨てるので、次の表示から新しいデータが出ます。
@@ -17,10 +20,46 @@
 
 ## Supabase のセットアップ
 
-1. SQL Editor で `supabase/schema.sql` → `supabase/seed.sql` の順に実行する
+1. SQL Editor で `supabase/schema.sql` → `supabase/02_login_stocks.sql` → `supabase/seed.sql` の順に実行する（すでに schema.sql を流した環境では、`02_login_stocks.sql` だけ追加で流せばよい）
 2. Authentication → Sign In / Providers → **Allow anonymous sign-ins** を ON にする（投稿に必要）
-3. `.env.example` を `.env.local` にコピーして URL と anon キーを入れる。Vercel でも同じ2つを Environment Variables に入れる
-4. `data/*.json` を編集したら `npm run db:seed` で `seed.sql` を作り直し、もう一度 SQL Editor で実行する（何度流しても大丈夫。ユーザーの投稿は消えません）
+3. Google ログイン（ストックに必要）は下の「Google ログインの設定」
+4. `.env.example` を `.env.local` にコピーして URL と anon キーを入れる。Vercel でも同じ2つを Environment Variables に入れる
+5. `data/*.json` を編集したら `npm run db:seed` で `seed.sql` を作り直し、もう一度 SQL Editor で実行する（何度流しても大丈夫。ユーザーの投稿は消えません）
+
+## Google ログインの設定
+
+1. Google Cloud Console で OAuth クライアント（ウェブ アプリケーション）を作る。「承認済みのリダイレクト URI」に、Supabase の Google 設定画面にある **Callback URL**（`https://<プロジェクトID>.supabase.co/auth/v1/callback`）を入れる
+2. Supabase の Authentication → Sign In / Providers → **Google** を ON にして、クライアント ID とシークレットを入れる
+3. 同じ画面の **Allow manual linking** を ON にする（匿名から Google に切り替えて、投稿を引き継ぐために必要）
+4. Authentication → URL Configuration
+   - **Site URL**：公開している URL（例 `https://xxxx.vercel.app`）
+   - **Redirect URLs**：`http://localhost:3000/**` と `https://xxxx.vercel.app/**`（ログイン後にもとのページへ戻るため）
+
+## フロントからの使い方（ログイン・ストック）
+
+```tsx
+"use client";
+import { addStock, listStocks, removeStock } from "@/app/actions/stocks";
+import { signInWithGoogle, signOut } from "@/lib/supabase/browser";
+import { useAuth } from "@/lib/supabase/useAuth";
+
+const { session, ready, error } = useAuth();  // Google から戻ってきたときの処理もこの中で行う
+if (!ready) return null;
+if (!session || session.isAnonymous) {
+  // 「Google でログイン」ボタン → onClick={() => signInWithGoogle()}
+  // 匿名で投稿したことがあれば、同じアカウントのまま Google に切り替わる（投稿は残る）
+}
+
+await addStock(session.accessToken, recipe.id);      // ストックする（もう入っていても ok）
+await removeStock(session.accessToken, recipe.id);   // 外す
+const res = await listStocks(session.accessToken);   // { ok: true, stocks: [{ recipe, stockedAt }] } 新しい順
+await signOut();                                     // ログアウト
+```
+
+- ストックできるのは Google でログインした人だけです。匿名のままだと `{ ok: false, error: "login_required" }` が返ります
+- 自分のストックは自分にしか見えません
+- 投稿者名（by ○○）に Google の本名は使いません。名前は投稿画面の入力や `updateProfileName` で決めます
+- ログイン後は、ログインボタンを押したページに戻ってきます。そのページでも `useAuth()` を使ってください
 
 ## フロントからの使い方（投稿）
 

@@ -26,8 +26,9 @@ export async function ensureSignedIn(name?: string): Promise<string | null> {
   if (!sb) return null;
   const { data } = await sb.auth.getSession();
   if (data.session) return data.session.access_token;
+  // name ではなく display_name に入れる（Google ログインの name は本名なので、投稿者名には使わない）
   const { data: signed, error } = await sb.auth.signInAnonymously({
-    options: { data: name ? { name } : {} },
+    options: { data: name ? { display_name: name } : {} },
   });
   if (error || !signed.session) throw error ?? new Error("anonymous sign-in failed");
   return signed.session.access_token;
@@ -45,4 +46,30 @@ export async function uploadPhoto(file: File): Promise<string> {
   const { error } = await sb.storage.from(PHOTO_BUCKET).upload(path, file, { contentType: file.type });
   if (error) throw error;
   return sb.storage.from(PHOTO_BUCKET).getPublicUrl(path).data.publicUrl;
+}
+
+/* ---------- Google ログイン ---------- */
+
+/** ログイン後に戻ってくる URL（いまのページ）。Supabase の Redirect URLs に登録が必要 */
+const currentUrl = () => window.location.origin + window.location.pathname + window.location.search;
+
+/**
+ * Google でログインする（Google の画面に移動し、終わったら今のページに戻ってくる）。
+ * 匿名ログイン中なら、同じアカウントのまま Google に切り替える（それまでの投稿が残る）。
+ * Supabase の Authentication で "Allow manual linking" を ON にしておくこと。
+ */
+export async function signInWithGoogle(): Promise<void> {
+  const sb = getBrowserSupabase();
+  if (!sb) throw new Error("Supabase is not configured");
+  const { data } = await sb.auth.getSession();
+  const options = { redirectTo: currentUrl() };
+  const { error } = data.session?.user.is_anonymous
+    ? await sb.auth.linkIdentity({ provider: "google", options })
+    : await sb.auth.signInWithOAuth({ provider: "google", options });
+  if (error) throw error;
+}
+
+/** ログアウト。次に投稿するときは、また新しい匿名ユーザーになる */
+export async function signOut(): Promise<void> {
+  await getBrowserSupabase()?.auth.signOut();
 }
