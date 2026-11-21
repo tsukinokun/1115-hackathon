@@ -1,24 +1,10 @@
-import type { IngredientCategory, Question, TagWeights } from "@/lib/types";
+import type { NewRecipeInput } from "@/lib/posting/validate";
+import type { IngredientCategory, Question } from "@/lib/types";
 import { LIMITS } from "./limits";
 import { buildTags, type MoodPicks } from "./tags";
 
-/**
- * バックエンドに送る形。lib/posting/validate.ts の NewRecipeInput と同じ。
- * バックエンドがマージされたら、この型は
- *   import type { NewRecipeInput as RecipeInput } from "@/lib/posting/validate";
- * に置き換える（中身は同じなので他は変えなくてよい）。
- */
-export type RecipeInput = {
-  title: string;
-  catch?: string;
-  description?: string;
-  minutes: number;
-  servings: number;
-  tags: TagWeights;
-  coverImage?: string;
-  ingredients: { ingredientId?: string; name: string; amount?: string }[];
-  steps: { text: string; image?: string }[];
-};
+/** バックエンドに送る形（lib/posting/validate.ts の NewRecipeInput） */
+export type RecipeInput = NewRecipeInput;
 
 /** 写真は送信の直前までファイルで持つ。preview は画面表示用の object URL */
 export type DraftPhoto = { file: File; preview: string };

@@ -35,3 +35,12 @@ describe("海外料理を足したあとの診断", () => {
     );
   });
 });
+
+describe("「どこの国の気分？」", () => {
+  it("東南アジア＋未知の味、ごはん・卵 → 上位2品はナシゴレンとガパオ", () => {
+    expect(top({ cuisine: ["southeast_asia"], adventure: ["go"] }, pantry("rice", "egg"), 2)).toEqual(["nasi-goreng", "gapao"]);
+  });
+  it("ヨーロッパ＋あまめ、パン・卵・牛乳 → パンペルデュが1位", () => {
+    expect(top({ cuisine: ["europe"], taste: ["sweet"] }, pantry("bread", "egg", "milk"), 1)).toEqual(["pain-perdu"]);
+  });
+});
