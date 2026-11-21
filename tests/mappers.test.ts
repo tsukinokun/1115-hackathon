@@ -80,3 +80,13 @@ describe("normalizeSupabaseUrl", async () => {
     expect(normalizeSupabaseUrl("abc.supabase.co")).toBeNull();
   });
 });
+
+describe("select 文", async () => {
+  const { RECIPE_SELECT, COMMENT_SELECT } = await import("@/lib/supabase/mappers");
+  it("profiles への埋め込みは外部キーを明示している（PGRST201 対策）", () => {
+    for (const select of [RECIPE_SELECT, COMMENT_SELECT]) {
+      expect(select).not.toMatch(/profiles\(/);
+      expect(select).toMatch(/profiles!\w+_fkey\(name\)/);
+    }
+  });
+});
