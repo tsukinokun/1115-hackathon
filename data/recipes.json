@@ -90,5 +90,506 @@
       { "text": "ポン酢とオリーブオイルを回しかけ、ちぎった大葉をのせて完成。" }
     ],
     "createdAt": "2026-11-10T08:15:00Z"
+  },
+  {
+    "id": "shakshuka",
+    "title": "シャクシュカ",
+    "catch": "トマト缶と卵だけで、中東の朝ごはん",
+    "description": "🇮🇱 イスラエルの家庭料理。パンをひたしながら食べてね。クミンがあれば最初に炒めると一気に本場の香り。",
+    "author": { "name": "せかいの台所" },
+    "coverImage": null,
+    "photos": [],
+    "minutes": 20,
+    "servings": 2,
+    "tags": { "adventurous": 3, "warm": 3, "sour": 2, "comfort": 1, "share": 2, "umami": 1 },
+    "ingredients": [
+      { "ingredientId": "egg", "name": "卵", "amount": "2〜3個" },
+      { "ingredientId": "canned_tomato", "name": "トマト缶", "amount": "1缶" },
+      { "ingredientId": "onion", "name": "玉ねぎ", "amount": "1/2個" },
+      { "ingredientId": "green_pepper", "name": "ピーマン", "amount": "1個" },
+      { "ingredientId": "garlic", "name": "にんにく", "amount": "1かけ" },
+      { "ingredientId": "olive_oil", "name": "オリーブオイル", "amount": "大さじ1" },
+      { "ingredientId": "salt", "name": "塩", "amount": "小さじ1/2" },
+      { "ingredientId": "pepper", "name": "こしょう", "amount": "少々" }
+    ],
+    "steps": [
+      { "text": "玉ねぎ・ピーマン・にんにくを刻んで、オリーブオイルで炒める。" },
+      { "text": "トマト缶を入れて、塩・こしょうで味をととのえ5分ほど煮る。" },
+      { "text": "くぼみを作って卵を割り入れ、ふたをして卵が好みのかたさになるまで加熱する。" }
+    ],
+    "createdAt": "2026-11-12T09:00:00Z"
+  },
+  {
+    "id": "gapao",
+    "title": "ガパオライス",
+    "catch": "ひき肉とピーマンでタイの屋台めし",
+    "description": "🇹🇭 タイの定番ランチ。目玉焼きの黄身をくずして混ぜるのが正解。",
+    "author": { "name": "せかいの台所" },
+    "coverImage": null,
+    "photos": [],
+    "minutes": 15,
+    "servings": 1,
+    "tags": { "adventurous": 3, "spicy": 2, "hearty": 3, "quick": 2, "umami": 2, "salty": 1, "solo": 2, "warm": 1 },
+    "ingredients": [
+      { "ingredientId": "chicken_minced", "name": "鶏ひき肉", "amount": "120g" },
+      { "ingredientId": "rice", "name": "冷やごはん", "amount": "1杯" },
+      { "ingredientId": "green_pepper", "name": "ピーマン", "amount": "1個" },
+      { "ingredientId": "onion", "name": "玉ねぎ", "amount": "1/4個" },
+      { "ingredientId": "egg", "name": "卵", "amount": "1個" },
+      { "ingredientId": "garlic", "name": "にんにく", "amount": "1かけ" },
+      { "ingredientId": "oyster_sauce", "name": "オイスターソース", "amount": "小さじ2" },
+      { "ingredientId": "nampla", "name": "ナンプラー", "amount": "小さじ1（なければしょうゆ）" },
+      { "ingredientId": "sugar", "name": "砂糖", "amount": "小さじ1/2" },
+      { "ingredientId": "salad_oil", "name": "サラダ油", "amount": "大さじ1" }
+    ],
+    "steps": [
+      { "text": "ピーマン・玉ねぎ・にんにくを刻む。" },
+      { "text": "ひき肉を炒め、色が変わったら野菜を加えて炒める。" },
+      { "text": "オイスターソース・ナンプラー・砂糖で味つけする。" },
+      { "text": "ごはんに盛り、目玉焼きをのせる。" }
+    ],
+    "createdAt": "2026-11-12T12:00:00Z"
+  },
+  {
+    "id": "khao-man-gai",
+    "title": "カオマンガイ",
+    "catch": "炊飯器におまかせのタイ風チキンライス",
+    "description": "🇹🇭 タイのチキンライス。お米と鶏肉を一緒に炊くだけで、鶏のうまみがごはんにしみる。",
+    "author": { "name": "せかいの台所" },
+    "coverImage": null,
+    "photos": [],
+    "minutes": 60,
+    "servings": 2,
+    "tags": { "adventurous": 2, "comfort": 3, "slow": 3, "warm": 2, "umami": 2, "salty": 1, "share": 2, "safe": 1 },
+    "ingredients": [
+      { "ingredientId": "chicken", "name": "鶏もも", "amount": "1枚" },
+      { "ingredientId": "raw_rice", "name": "米", "amount": "2合" },
+      { "ingredientId": "ginger", "name": "しょうが", "amount": "1かけ" },
+      { "ingredientId": "negi", "name": "ねぎ", "amount": "1/2本" },
+      { "ingredientId": "chicken_stock", "name": "鶏ガラスープの素", "amount": "小さじ2" },
+      { "ingredientId": "salt", "name": "塩", "amount": "小さじ1/2" },
+      { "ingredientId": "soy_sauce", "name": "しょうゆ", "amount": "大さじ1" },
+      { "ingredientId": "vinegar", "name": "酢", "amount": "大さじ1/2" },
+      { "ingredientId": "sugar", "name": "砂糖", "amount": "小さじ1" }
+    ],
+    "steps": [
+      { "text": "米を研いで、いつもの水加減にし、鶏ガラスープの素と塩を入れる。" },
+      { "text": "鶏もも、しょうがの薄切り、ねぎの青い部分をのせて普通に炊く。" },
+      { "text": "しょうゆ・酢・砂糖・刻んだねぎでタレを作る。" },
+      { "text": "鶏肉を切ってごはんにのせ、タレをかける。" }
+    ],
+    "createdAt": "2026-11-12T15:00:00Z"
+  },
+  {
+    "id": "tortilla",
+    "title": "トルティージャ",
+    "catch": "じゃがいもと卵の、分厚いスペインオムレツ",
+    "description": "🇪🇸 スペインのバルの定番。ひっくり返すときは大きめのお皿を使うと失敗しにくい。",
+    "author": { "name": "せかいの台所" },
+    "coverImage": null,
+    "photos": [],
+    "minutes": 30,
+    "servings": 2,
+    "tags": { "adventurous": 2, "comfort": 2, "hearty": 2, "slow": 1, "warm": 2, "share": 3, "safe": 1, "salty": 1 },
+    "ingredients": [
+      { "ingredientId": "egg", "name": "卵", "amount": "4個" },
+      { "ingredientId": "potato", "name": "じゃがいも", "amount": "2個" },
+      { "ingredientId": "onion", "name": "玉ねぎ", "amount": "1/2個" },
+      { "ingredientId": "olive_oil", "name": "オリーブオイル", "amount": "大さじ3" },
+      { "ingredientId": "salt", "name": "塩", "amount": "小さじ1/2" }
+    ],
+    "steps": [
+      { "text": "じゃがいもと玉ねぎを薄切りにし、多めのオリーブオイルでやわらかくなるまで炒める。" },
+      { "text": "溶き卵と塩を混ぜたボウルに入れて合わせる。" },
+      { "text": "フライパンに戻して弱火で焼き、皿を使ってひっくり返して裏も焼く。" }
+    ],
+    "createdAt": "2026-11-13T09:00:00Z"
+  },
+  {
+    "id": "jeon",
+    "title": "チヂミ",
+    "catch": "小麦粉とニラで、カリッと韓国のおやつ",
+    "description": "🇰🇷 韓国の粉もの。焼くときは油を多めに、押さえつけるとカリッとする。",
+    "author": { "name": "せかいの台所" },
+    "coverImage": null,
+    "photos": [],
+    "minutes": 20,
+    "servings": 2,
+    "tags": { "adventurous": 2, "salty": 2, "umami": 2, "hearty": 1, "share": 3, "warm": 2, "quick": 1 },
+    "ingredients": [
+      { "ingredientId": "flour", "name": "小麦粉", "amount": "100g" },
+      { "ingredientId": "nira", "name": "ニラ", "amount": "1束" },
+      { "ingredientId": "egg", "name": "卵", "amount": "1個" },
+      { "ingredientId": "carrot", "name": "にんじん", "amount": "1/4本" },
+      { "ingredientId": "shrimp", "name": "えび", "amount": "6尾" },
+      { "ingredientId": "sesame_oil", "name": "ごま油", "amount": "大さじ2" },
+      { "ingredientId": "soy_sauce", "name": "しょうゆ", "amount": "大さじ1" },
+      { "ingredientId": "vinegar", "name": "酢", "amount": "大さじ1/2" },
+      { "ingredientId": "salt", "name": "塩", "amount": "ひとつまみ" }
+    ],
+    "steps": [
+      { "text": "ニラ・にんじんを食べやすく切る。" },
+      { "text": "小麦粉・水100ml・卵・塩を混ぜ、野菜とえびを加える。" },
+      { "text": "ごま油を引いたフライパンで薄く広げ、両面をカリッと焼く。" },
+      { "text": "しょうゆと酢を混ぜたタレで食べる。" }
+    ],
+    "createdAt": "2026-11-13T12:00:00Z"
+  },
+  {
+    "id": "bibimbap",
+    "title": "ビビンバ",
+    "catch": "残り野菜をのせて混ぜるだけ",
+    "description": "🇰🇷 韓国の混ぜごはん。コチュジャンがあれば少しのせるとピリ辛に。",
+    "author": { "name": "せかいの台所" },
+    "coverImage": null,
+    "photos": [],
+    "minutes": 25,
+    "servings": 1,
+    "tags": { "adventurous": 2, "hearty": 2, "umami": 2, "salty": 1, "spicy": 1, "comfort": 1, "solo": 1, "warm": 1 },
+    "ingredients": [
+      { "ingredientId": "rice", "name": "冷やごはん", "amount": "1杯" },
+      { "ingredientId": "bean_sprouts", "name": "もやし", "amount": "1/2袋" },
+      { "ingredientId": "minced", "name": "合いびき肉", "amount": "60g" },
+      { "ingredientId": "spinach", "name": "ほうれん草", "amount": "1/4束" },
+      { "ingredientId": "carrot", "name": "にんじん", "amount": "1/4本" },
+      { "ingredientId": "egg", "name": "卵", "amount": "1個" },
+      { "ingredientId": "sesame_oil", "name": "ごま油", "amount": "大さじ1" },
+      { "ingredientId": "soy_sauce", "name": "しょうゆ", "amount": "大さじ1" },
+      { "ingredientId": "sugar", "name": "砂糖", "amount": "小さじ1" },
+      { "ingredientId": "salt", "name": "塩", "amount": "少々" }
+    ],
+    "steps": [
+      { "text": "もやし・ほうれん草・細切りのにんじんをそれぞれゆでて、ごま油と塩であえる。" },
+      { "text": "ひき肉をしょうゆと砂糖で甘辛く炒める。" },
+      { "text": "ごはんに全部のせて、卵をのせる。" },
+      { "text": "よく混ぜて食べる。" }
+    ],
+    "createdAt": "2026-11-13T15:00:00Z"
+  },
+  {
+    "id": "tomato-egg",
+    "title": "トマトと卵の炒めもの",
+    "catch": "中国の家庭の定番、材料2つで10分",
+    "description": "🇨🇳 中国の「番茄炒蛋」。卵は一度取り出すとふわふわのまま。",
+    "author": { "name": "せかいの台所" },
+    "coverImage": null,
+    "photos": [],
+    "minutes": 10,
+    "servings": 1,
+    "tags": { "adventurous": 1, "comfort": 2, "quick": 3, "sweet": 1, "sour": 1, "safe": 2, "warm": 2, "solo": 1 },
+    "ingredients": [
+      { "ingredientId": "egg", "name": "卵", "amount": "2個" },
+      { "ingredientId": "tomato", "name": "トマト", "amount": "1個" },
+      { "ingredientId": "negi", "name": "ねぎ", "amount": "少々" },
+      { "ingredientId": "salt", "name": "塩", "amount": "ひとつまみ" },
+      { "ingredientId": "sugar", "name": "砂糖", "amount": "小さじ1/2" },
+      { "ingredientId": "salad_oil", "name": "サラダ油", "amount": "大さじ1" }
+    ],
+    "steps": [
+      { "text": "溶き卵をふんわり炒めていったん取り出す。" },
+      { "text": "くし切りにしたトマトを炒め、塩と砂糖で味つけする。" },
+      { "text": "卵を戻してさっと混ぜ、ねぎを散らす。" }
+    ],
+    "createdAt": "2026-11-14T09:00:00Z"
+  },
+  {
+    "id": "lu-rou-fan",
+    "title": "ルーローハン",
+    "catch": "甘辛く煮た豚肉をごはんにどーん",
+    "description": "🇹🇼 台湾の屋台めし。五香粉があればひとふりで台湾の香りに。",
+    "author": { "name": "せかいの台所" },
+    "coverImage": null,
+    "photos": [],
+    "minutes": 40,
+    "servings": 2,
+    "tags": { "adventurous": 2, "hearty": 3, "sweet": 2, "umami": 2, "salty": 1, "slow": 2, "warm": 2, "comfort": 1 },
+    "ingredients": [
+      { "ingredientId": "pork", "name": "豚こま", "amount": "200g（豚バラがおすすめ）" },
+      { "ingredientId": "rice", "name": "冷やごはん", "amount": "2杯" },
+      { "ingredientId": "onion", "name": "玉ねぎ", "amount": "1/2個" },
+      { "ingredientId": "egg", "name": "卵", "amount": "2個（ゆで卵）" },
+      { "ingredientId": "garlic", "name": "にんにく", "amount": "1かけ" },
+      { "ingredientId": "soy_sauce", "name": "しょうゆ", "amount": "大さじ3" },
+      { "ingredientId": "sugar", "name": "砂糖", "amount": "大さじ1と1/2" },
+      { "ingredientId": "sake", "name": "酒", "amount": "大さじ2" }
+    ],
+    "steps": [
+      { "text": "豚肉を細かく切り、玉ねぎ・にんにくと炒める。" },
+      { "text": "しょうゆ・砂糖・酒・水200mlを入れ、ゆで卵も一緒に30分ほど煮る。" },
+      { "text": "ごはんにかけて、卵を半分に切ってのせる。" }
+    ],
+    "createdAt": "2026-11-14T12:00:00Z"
+  },
+  {
+    "id": "german-potato",
+    "title": "ジャーマンポテト",
+    "catch": "じゃがいもとベーコンで、ドイツのおかず",
+    "description": "🇩🇪 ドイツの定番おかず。じゃがいもはレンジで先にやわらかくしておくと早い。",
+    "author": { "name": "せかいの台所" },
+    "coverImage": null,
+    "photos": [],
+    "minutes": 20,
+    "servings": 2,
+    "tags": { "adventurous": 1, "hearty": 2, "salty": 2, "comfort": 2, "safe": 2, "warm": 2, "share": 1, "quick": 1 },
+    "ingredients": [
+      { "ingredientId": "potato", "name": "じゃがいも", "amount": "2個" },
+      { "ingredientId": "bacon", "name": "ベーコン", "amount": "4枚" },
+      { "ingredientId": "onion", "name": "玉ねぎ", "amount": "1/2個" },
+      { "ingredientId": "salad_oil", "name": "サラダ油", "amount": "大さじ1" },
+      { "ingredientId": "salt", "name": "塩", "amount": "少々" },
+      { "ingredientId": "pepper", "name": "こしょう", "amount": "少々" }
+    ],
+    "steps": [
+      { "text": "じゃがいもを切って電子レンジ（600W）で4分ほど加熱する。" },
+      { "text": "ベーコンと玉ねぎを炒める。" },
+      { "text": "じゃがいもを加えて焼き色をつけ、塩・こしょうで味つけする。" }
+    ],
+    "createdAt": "2026-11-14T15:00:00Z"
+  },
+  {
+    "id": "minestrone",
+    "title": "ミネストローネ",
+    "catch": "余り野菜を全部入れていいトマトスープ",
+    "description": "🇮🇹 イタリアの具だくさんスープ。冷蔵庫の残り野菜を何でも入れてOK。",
+    "author": { "name": "せかいの台所" },
+    "coverImage": null,
+    "photos": [],
+    "minutes": 30,
+    "servings": 2,
+    "tags": { "adventurous": 1, "warm": 3, "comfort": 3, "light": 2, "sour": 1, "slow": 1, "safe": 1, "share": 1 },
+    "ingredients": [
+      { "ingredientId": "canned_tomato", "name": "トマト缶", "amount": "1缶" },
+      { "ingredientId": "onion", "name": "玉ねぎ", "amount": "1/2個" },
+      { "ingredientId": "carrot", "name": "にんじん", "amount": "1/2本" },
+      { "ingredientId": "potato", "name": "じゃがいも", "amount": "1個" },
+      { "ingredientId": "bacon", "name": "ベーコン", "amount": "2枚" },
+      { "ingredientId": "consomme", "name": "コンソメ", "amount": "1個" },
+      { "ingredientId": "olive_oil", "name": "オリーブオイル", "amount": "大さじ1" },
+      { "ingredientId": "salt", "name": "塩", "amount": "少々" },
+      { "ingredientId": "pepper", "name": "こしょう", "amount": "少々" }
+    ],
+    "steps": [
+      { "text": "野菜とベーコンを1cm角くらいに切る。" },
+      { "text": "オリーブオイルで炒める。" },
+      { "text": "トマト缶・水300ml・コンソメを入れて、野菜がやわらかくなるまで煮る。" },
+      { "text": "塩・こしょうで味をととのえる。" }
+    ],
+    "createdAt": "2026-11-15T09:00:00Z"
+  },
+  {
+    "id": "carbonara",
+    "title": "カルボナーラ",
+    "catch": "卵と粉チーズでローマのパスタ",
+    "description": "🇮🇹 ローマのパスタ。卵液を入れるのは火を止めてから。固まるのを防げる。",
+    "author": { "name": "せかいの台所" },
+    "coverImage": null,
+    "photos": [],
+    "minutes": 20,
+    "servings": 1,
+    "tags": { "adventurous": 2, "hearty": 2, "umami": 3, "salty": 2, "comfort": 1, "warm": 2, "solo": 2 },
+    "ingredients": [
+      { "ingredientId": "pasta", "name": "パスタ", "amount": "100g" },
+      { "ingredientId": "egg", "name": "卵", "amount": "1個" },
+      { "ingredientId": "bacon", "name": "ベーコン", "amount": "2枚" },
+      { "ingredientId": "parmesan", "name": "粉チーズ", "amount": "大さじ3" },
+      { "ingredientId": "pepper", "name": "こしょう", "amount": "たっぷり（黒こしょう）" },
+      { "ingredientId": "salt", "name": "塩", "amount": "ゆで湯用" }
+    ],
+    "steps": [
+      { "text": "パスタを塩を入れたお湯でゆでる。" },
+      { "text": "卵と粉チーズをボウルで混ぜておく。" },
+      { "text": "ベーコンを炒め、ゆでたパスタとからめて火を止める。" },
+      { "text": "卵液を入れて手早く混ぜ、黒こしょうをかける。" }
+    ],
+    "createdAt": "2026-11-15T12:00:00Z"
+  },
+  {
+    "id": "nasi-goreng",
+    "title": "ナシゴレン",
+    "catch": "いつもの炒飯をケチャップで南国風に",
+    "description": "🇮🇩 インドネシアの焼きめし。甘めの味つけに目玉焼きをのせて。",
+    "author": { "name": "せかいの台所" },
+    "coverImage": null,
+    "photos": [],
+    "minutes": 15,
+    "servings": 1,
+    "tags": { "adventurous": 3, "hearty": 2, "sweet": 2, "umami": 1, "spicy": 1, "quick": 2, "solo": 2, "warm": 2 },
+    "ingredients": [
+      { "ingredientId": "rice", "name": "冷やごはん", "amount": "1杯" },
+      { "ingredientId": "egg", "name": "卵", "amount": "1個" },
+      { "ingredientId": "onion", "name": "玉ねぎ", "amount": "1/4個" },
+      { "ingredientId": "shrimp", "name": "えび", "amount": "4尾" },
+      { "ingredientId": "ketchup", "name": "ケチャップ", "amount": "大さじ1" },
+      { "ingredientId": "soy_sauce", "name": "しょうゆ", "amount": "小さじ1" },
+      { "ingredientId": "oyster_sauce", "name": "オイスターソース", "amount": "小さじ1" },
+      { "ingredientId": "salad_oil", "name": "サラダ油", "amount": "大さじ1" }
+    ],
+    "steps": [
+      { "text": "玉ねぎを刻み、えびと一緒に炒める。" },
+      { "text": "ごはんを加えて炒め、ケチャップ・しょうゆ・オイスターソースで味つけする。" },
+      { "text": "目玉焼きをのせる。" }
+    ],
+    "createdAt": "2026-11-15T15:00:00Z"
+  },
+  {
+    "id": "chicken-curry",
+    "title": "チキンカレー",
+    "catch": "ルーなし、カレー粉とヨーグルトで本格派",
+    "description": "🇮🇳 インドの家庭のカレー。玉ねぎを茶色くなるまで炒めるのがいちばん大事。",
+    "author": { "name": "せかいの台所" },
+    "coverImage": null,
+    "photos": [],
+    "minutes": 40,
+    "servings": 2,
+    "tags": { "adventurous": 3, "spicy": 3, "hearty": 2, "warm": 3, "slow": 2, "umami": 1, "share": 2 },
+    "ingredients": [
+      { "ingredientId": "chicken", "name": "鶏もも", "amount": "1枚" },
+      { "ingredientId": "onion", "name": "玉ねぎ", "amount": "1個" },
+      { "ingredientId": "canned_tomato", "name": "トマト缶", "amount": "1/2缶" },
+      { "ingredientId": "yogurt", "name": "ヨーグルト", "amount": "100g" },
+      { "ingredientId": "garlic", "name": "にんにく", "amount": "1かけ" },
+      { "ingredientId": "ginger", "name": "しょうが", "amount": "1かけ" },
+      { "ingredientId": "curry_powder", "name": "カレー粉", "amount": "大さじ1と1/2" },
+      { "ingredientId": "salt", "name": "塩", "amount": "小さじ1" },
+      { "ingredientId": "salad_oil", "name": "サラダ油", "amount": "大さじ2" }
+    ],
+    "steps": [
+      { "text": "玉ねぎをみじん切りにし、茶色くなるまでじっくり炒める。" },
+      { "text": "にんにく・しょうが・カレー粉を加えて炒める。" },
+      { "text": "ひと口大の鶏肉・トマト缶・ヨーグルトを入れて20分ほど煮る。" },
+      { "text": "塩で味をととのえる。" }
+    ],
+    "createdAt": "2026-11-16T09:00:00Z"
+  },
+  {
+    "id": "chili-con-carne",
+    "title": "チリコンカン",
+    "catch": "ひき肉と豆で、テキサスの煮込み",
+    "description": "🇺🇸 アメリカ・テキサスの煮込み。チリパウダーがなければカレー粉でもおいしい。",
+    "author": { "name": "せかいの台所" },
+    "coverImage": null,
+    "photos": [],
+    "minutes": 30,
+    "servings": 2,
+    "tags": { "adventurous": 2, "spicy": 2, "hearty": 3, "warm": 2, "umami": 2, "share": 2, "slow": 1 },
+    "ingredients": [
+      { "ingredientId": "minced", "name": "合いびき肉", "amount": "200g" },
+      { "ingredientId": "canned_tomato", "name": "トマト缶", "amount": "1缶" },
+      { "ingredientId": "soybeans", "name": "大豆の水煮", "amount": "1袋（120g）" },
+      { "ingredientId": "onion", "name": "玉ねぎ", "amount": "1/2個" },
+      { "ingredientId": "garlic", "name": "にんにく", "amount": "1かけ" },
+      { "ingredientId": "curry_powder", "name": "カレー粉", "amount": "小さじ2（チリパウダーがあればそれで）" },
+      { "ingredientId": "consomme", "name": "コンソメ", "amount": "1個" },
+      { "ingredientId": "salt", "name": "塩", "amount": "少々" },
+      { "ingredientId": "pepper", "name": "こしょう", "amount": "少々" }
+    ],
+    "steps": [
+      { "text": "玉ねぎ・にんにくを刻み、ひき肉と炒める。" },
+      { "text": "トマト缶・豆・スパイス・コンソメを入れて15分ほど煮る。" },
+      { "text": "塩・こしょうで味をととのえる。ごはんやパンと一緒に。" }
+    ],
+    "createdAt": "2026-11-16T12:00:00Z"
+  },
+  {
+    "id": "croque-monsieur",
+    "title": "クロックムッシュ",
+    "catch": "食パンとハムで、パリのカフェ気分",
+    "description": "🇫🇷 パリのカフェの定番。牛乳と小麦粉でホワイトソースを作ってかけるとより本格的。",
+    "author": { "name": "せかいの台所" },
+    "coverImage": null,
+    "photos": [],
+    "minutes": 15,
+    "servings": 1,
+    "tags": { "adventurous": 1, "comfort": 2, "quick": 2, "salty": 1, "umami": 1, "warm": 2, "solo": 2, "safe": 2 },
+    "ingredients": [
+      { "ingredientId": "bread", "name": "食パン", "amount": "2枚" },
+      { "ingredientId": "ham", "name": "ハム", "amount": "2枚" },
+      { "ingredientId": "cheese", "name": "チーズ", "amount": "2枚" },
+      { "ingredientId": "butter", "name": "バター", "amount": "10g" },
+      { "ingredientId": "pepper", "name": "こしょう", "amount": "少々" }
+    ],
+    "steps": [
+      { "text": "食パンにバターを塗り、ハムとチーズをはさむ。" },
+      { "text": "上にもチーズをのせ、こしょうをふる。" },
+      { "text": "トースターでこんがり焼く。" }
+    ],
+    "createdAt": "2026-11-16T15:00:00Z"
+  },
+  {
+    "id": "pain-perdu",
+    "title": "パンペルデュ",
+    "catch": "固くなったパンを甘いおやつに",
+    "description": "🇫🇷 フランス語で「失われたパン」。いわゆるフレンチトースト。",
+    "author": { "name": "せかいの台所" },
+    "coverImage": null,
+    "photos": [],
+    "minutes": 15,
+    "servings": 1,
+    "tags": { "sweet": 3, "comfort": 3, "quick": 2, "safe": 2, "warm": 2, "solo": 1, "light": 1 },
+    "ingredients": [
+      { "ingredientId": "bread", "name": "食パン", "amount": "1枚" },
+      { "ingredientId": "egg", "name": "卵", "amount": "1個" },
+      { "ingredientId": "milk", "name": "牛乳", "amount": "100ml" },
+      { "ingredientId": "butter", "name": "バター", "amount": "10g" },
+      { "ingredientId": "sugar", "name": "砂糖", "amount": "大さじ1" }
+    ],
+    "steps": [
+      { "text": "卵・牛乳・砂糖を混ぜる。" },
+      { "text": "食パンをひたしてしみこませる。" },
+      { "text": "バターを溶かしたフライパンで両面をこんがり焼く。" }
+    ],
+    "createdAt": "2026-11-17T09:00:00Z"
+  },
+  {
+    "id": "garlic-shrimp",
+    "title": "ガーリックシュリンプ",
+    "catch": "えびとにんにくで、ハワイのワゴン飯",
+    "description": "🇺🇸 ハワイのフードトラックの名物。にんにくはたっぷり、が正解。",
+    "author": { "name": "せかいの台所" },
+    "coverImage": null,
+    "photos": [],
+    "minutes": 15,
+    "servings": 1,
+    "tags": { "adventurous": 2, "umami": 2, "salty": 2, "hearty": 2, "quick": 2, "warm": 2, "solo": 1 },
+    "ingredients": [
+      { "ingredientId": "shrimp", "name": "えび", "amount": "10尾" },
+      { "ingredientId": "garlic", "name": "にんにく", "amount": "3かけ" },
+      { "ingredientId": "butter", "name": "バター", "amount": "10g" },
+      { "ingredientId": "rice", "name": "冷やごはん", "amount": "1杯" },
+      { "ingredientId": "olive_oil", "name": "オリーブオイル", "amount": "大さじ1" },
+      { "ingredientId": "salt", "name": "塩", "amount": "少々" },
+      { "ingredientId": "pepper", "name": "こしょう", "amount": "少々" }
+    ],
+    "steps": [
+      { "text": "えびの水けをふき、塩・こしょうをふる。" },
+      { "text": "オリーブオイルとバターでにんにくのみじん切りを炒める。" },
+      { "text": "えびを入れて色が変わるまで焼く。ごはんと一緒に。" }
+    ],
+    "createdAt": "2026-11-17T12:00:00Z"
+  },
+  {
+    "id": "tzatziki",
+    "title": "ザジキ",
+    "catch": "きゅうりとヨーグルトで、火を使わない一品",
+    "description": "🇬🇷 ギリシャのヨーグルトソース。パンにつけたり、肉料理に添えたり。",
+    "author": { "name": "せかいの台所" },
+    "coverImage": null,
+    "photos": [],
+    "minutes": 10,
+    "servings": 2,
+    "tags": { "adventurous": 3, "light": 3, "cold": 3, "sour": 2, "quick": 2, "share": 1 },
+    "ingredients": [
+      { "ingredientId": "cucumber", "name": "きゅうり", "amount": "1本" },
+      { "ingredientId": "yogurt", "name": "ヨーグルト", "amount": "200g" },
+      { "ingredientId": "garlic", "name": "にんにく", "amount": "少々" },
+      { "ingredientId": "olive_oil", "name": "オリーブオイル", "amount": "大さじ1" },
+      { "ingredientId": "salt", "name": "塩", "amount": "小さじ1/3" }
+    ],
+    "steps": [
+      { "text": "きゅうりをすりおろすか細かく刻み、塩をふって水けをしぼる。" },
+      { "text": "ヨーグルト・すりおろしたにんにく少し・オリーブオイルと混ぜる。" },
+      { "text": "パンや肉料理に添えて食べる。" }
+    ],
+    "createdAt": "2026-11-17T15:00:00Z"
   }
 ]

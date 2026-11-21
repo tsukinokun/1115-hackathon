@@ -21,7 +21,7 @@ create type public.ingredient_category as enum
   ('vegetable', 'meat', 'fish', 'egg_dairy', 'soy', 'grain', 'seasoning', 'other');
 
 create table public.ingredients (
-  id          text primary key,                 -- 例: 'egg'。ユーザー追加分は uuid 文字列でもよい
+  id          text primary key default gen_random_uuid()::text, -- 例: 'egg'。ユーザー追加分は uuid 文字列
   name        text not null,
   reading     text,                             -- ひらがな読み（検索用）
   aliases     text[] not null default '{}',     -- 表記ゆれ
@@ -39,6 +39,7 @@ create table public.recipes (
   catch        text not null default '',
   description  text,
   author_id    uuid references public.profiles (id) on delete set null,
+  author_name  text,                                  -- author_id が無いとき（初期データ）の作者名
   cover_image  text,
   minutes      int  not null default 15 check (minutes > 0),
   servings     int  not null default 1  check (servings > 0),
@@ -153,3 +154,88 @@ create policy "own question" on public.questions
 create policy "own question options" on public.question_options
   for all using (exists (select 1 from public.questions q where q.id = question_id and q.created_by = auth.uid()))
   with check (exists (select 1 from public.questions q where q.id = question_id and q.created_by = auth.uid()));
+
+-- =====================================================================
+-- 投稿まわり（バックエンド追加分）
+-- ログインは Supabase の匿名ログイン（Authentication → Sign In / Providers →
+-- "Allow anonymous sign-ins" を ON）。匿名ユーザーも role は authenticated になる。
+-- =====================================================================
+
+-- ---------- ログインしたら profiles を自動で作る ----------
+create function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  insert into public.profiles (id, name)
+  values (new.id, coalesce(nullif(new.raw_user_meta_data ->> 'name', ''), 'ななしの台所'));
+  return new;
+end;
+$$;
+
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute function public.handle_new_user();
+
+-- ---------- レシピ投稿（本体・材料・手順を 1 トランザクションで入れる） ----------
+-- security invoker なので RLS がそのまま効く（author_id は必ず本人になる）
+create function public.create_recipe(
+  p_title        text,
+  p_catch        text,
+  p_description  text,
+  p_minutes      int,
+  p_servings     int,
+  p_tags         jsonb,
+  p_cover_image  text,
+  p_ingredients  jsonb,  -- [{ "ingredientId"?: "egg", "name": "卵", "amount": "2個" }]
+  p_steps        jsonb   -- [{ "text": "...", "image"?: "https://..." }]
+)
+returns text
+language plpgsql
+security invoker
+set search_path = ''
+as $$
+declare
+  v_uid uuid := auth.uid();
+  v_id  text;
+begin
+  if v_uid is null then
+    raise exception 'sign in required' using errcode = '42501';
+  end if;
+
+  insert into public.recipes (title, catch, description, author_id, cover_image, minutes, servings, tags)
+  values (p_title, coalesce(p_catch, ''), p_description, v_uid, p_cover_image,
+          p_minutes, p_servings, coalesce(p_tags, '{}'::jsonb))
+  returning id into v_id;
+
+  insert into public.recipe_ingredients (recipe_id, position, ingredient_id, name, amount)
+  select v_id, t.ord - 1, nullif(t.e ->> 'ingredientId', ''), t.e ->> 'name', coalesce(t.e ->> 'amount', '')
+  from jsonb_array_elements(p_ingredients) with ordinality as t(e, ord);
+
+  insert into public.recipe_steps (recipe_id, position, text, image_url)
+  select v_id, t.ord - 1, t.e ->> 'text', nullif(t.e ->> 'image', '')
+  from jsonb_array_elements(p_steps) with ordinality as t(e, ord);
+
+  return v_id;
+end;
+$$;
+
+revoke execute on function public.create_recipe from public, anon;
+grant execute on function public.create_recipe to authenticated;
+
+-- ---------- 写真（Storage） ----------
+-- 公開バケット。アップロードは本人のフォルダ（<user id>/...）だけ。5MB まで、画像のみ
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('recipe-photos', 'recipe-photos', true, 5242880,
+        array['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+on conflict (id) do nothing;
+
+create policy "upload to own folder" on storage.objects
+  for insert to authenticated
+  with check (bucket_id = 'recipe-photos' and (storage.foldername(name))[1] = (select auth.uid()::text));
+
+create policy "delete own upload" on storage.objects
+  for delete to authenticated
+  using (bucket_id = 'recipe-photos' and owner_id = (select auth.uid()::text));
