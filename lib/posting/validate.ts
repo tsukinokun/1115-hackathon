@@ -156,3 +156,28 @@ export function validateIngredient(input: unknown) {
 export function validateProfileName(input: unknown) {
   return run<string>(() => str(input, "名前", 20)!);
 }
+
+/* ---------- スキ・コメント ---------- */
+
+export const COMMENT_MAX = 300;
+
+export type NewCommentInput = {
+  recipeId: string;
+  body: string;
+  photoUrl?: string;
+};
+
+export function validateRecipeId(input: unknown) {
+  return run<string>(() => str(input, "recipeId", 64)!);
+}
+
+export function validateComment(input: unknown, isAllowedImage: (url: string) => boolean) {
+  return run<NewCommentInput>(() => {
+    const o = obj(input, "コメント");
+    return {
+      recipeId: str(o.recipeId, "recipeId", 64)!,
+      body: str(o.body, "コメント", COMMENT_MAX)!,
+      photoUrl: image(o.photoUrl, "写真", isAllowedImage),
+    };
+  });
+}

@@ -11,6 +11,9 @@
 | 入力チェック | `lib/posting/validate.ts` |
 | テーブル定義・RLS・投稿用関数・Storage | `supabase/schema.sql` |
 | 初期データ | `supabase/seed.sql`（`npm run db:seed` で `data/*.json` から生成） |
+| スキ・コメント（書き込み） | `app/actions/reactions.ts`（Server Actions）。ブラウザからは `lib/reactions/client.ts` 経由 |
+| スキ数・コメント（読み込み） | `lib/reactions/read.ts`。Supabase が無ければ `data/reactions.json`（仮データ） |
+| Server Actions 共通の本人確認 | `lib/supabase/session.ts` |
 
 - 読み込みは数分キャッシュします。投稿した直後は Server Action がキャッシュを捨てるので、次の表示から新しいデータが出ます。
 - Supabase がエラーを返したときもローカル JSON に切り替えるので、デモ中に画面が止まりません（サーバーのログにエラーが出ます）。
@@ -61,6 +64,20 @@ await updateProfileName(token!, "はなこ");
 - `error` の種類: `invalid_input`（入力の不備）/ `unauthorized`（ログインし直し）/ `forbidden` / `not_found` / `invalid_reference`（存在しない食材 id など）/ `supabase_not_configured` / `server_error`
 - 写真は本人がアップロードしたもの（`recipe-photos/<自分のid>/...`）しか指定できません。5MB まで、jpeg/png/webp/gif
 - Supabase 未設定のとき `ensureSignedIn()` は `null` を返します。投稿ボタンを隠すのに使えます
+
+## スキ（いいね）・コメント
+
+- テーブル: `recipe_likes`（1人1レシピ1回。主キー `(recipe_id, user_id)`）と `recipe_comments`（本文1〜300文字、写真は任意）。件数はビュー `recipe_reaction_counts`
+- RLS はほかと同じ「だれでも読める / 書けるのは本人だけ」。コメントの写真も本人がアップロードしたものだけ
+- **すでに schema.sql を流した Supabase には、`supabase/migrations/20261121_likes_comments.sql` を SQL Editor で1回流す**（何度流しても大丈夫）。新しく作るときは schema.sql だけでよい
+- 画面: レシピページ `/recipes/[id]`（スキ・ひとことの入口）、コメントページ `/recipes/[id]/comments`。診断結果のレシートにもスキと入口がある
+- Supabase 未設定のときは、スキもコメントもこの端末の localStorage に仮保存（写真は縮めて data URL で保存）。件数とサンプルのコメントは `data/reactions.json`
+
+```tsx
+import { toggleLike, postComment, getMyLikes } from "@/lib/reactions/client";
+const res = await toggleLike("gapao", /* いまスキしているか */ false, /* いまの数 */ 9); // { ok, liked, count }
+await postComment({ recipeId: "gapao", body: "おいしかった", photo: file, name: "はなこ" });
+```
 
 ## セキュリティ
 
