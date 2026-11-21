@@ -6,7 +6,7 @@ import { selectQuestions } from "@/lib/selectQuestions";
 import { DiagnosisFlow } from "./_components/DiagnosisFlow";
 
 export const metadata: Metadata = {
-  title: "冷蔵庫診断 | きょうのすき",
+  title: "冷蔵庫診断",
   description: "冷蔵庫のメモに答えて、中身をまな板にのせたら、今日のあなたの「すき」が見つかるかも。",
 };
 

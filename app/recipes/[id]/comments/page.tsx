@@ -17,7 +17,7 @@ async function findRecipe(id: string) {
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const recipe = await findRecipe((await params).id);
-  return { title: recipe ? `みんなのひとこと：${recipe.title} | きょうのすき` : "レシピが見つかりません | きょうのすき" };
+  return { title: recipe ? `みんなのひとこと：${recipe.title}` : "レシピが見つかりません" };
 }
 
 export default async function CommentsPage({ params }: Params) {

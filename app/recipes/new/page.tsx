@@ -3,7 +3,7 @@ import { getIngredients, getQuestions } from "@/lib/repository";
 import { RecipeForm } from "./_components/RecipeForm";
 
 export const metadata: Metadata = {
-  title: "レシピを貼る | きょうのすき",
+  title: "レシピを貼る",
   description: "あなたの好きな料理を、冷蔵庫に貼ろう。だれかの「すき」になるかもしれない。",
 };
 
