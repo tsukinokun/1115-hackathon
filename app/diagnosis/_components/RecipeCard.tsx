@@ -20,12 +20,16 @@ import {
 
 type Props = { results: DiagnosisResult[]; counts: ReactionCounts; onRetry: () => void };
 
+/** 「こっちも好きかも」に出す件数 */
+const MAX_OTHERS = 2;
+
 export function RecipeCard({ results, counts, onRetry }: Props) {
   const [index, setIndex] = useState(0);
   const [zoomed, setZoomed] = useState<Zoomed>(null);
   const sheetRef = useRef<HTMLElement>(null);
   const main = results[index];
-  const others = results.filter((_, i) => i !== index);
+  // 相性順に並んでいるので、いま見ているもの以外の先頭が「近いもの」
+  const others = results.filter((_, i) => i !== index).slice(0, MAX_OTHERS);
   const { recipe } = main;
 
   const show = (i: number) => {
@@ -96,31 +100,9 @@ export function RecipeCard({ results, counts, onRetry }: Props) {
         {others.length > 0 && (
           <div className="mt-7">
             <p className="font-hand text-sm text-ink/60">こっちも好きかも…</p>
-            <div className="mt-2 flex gap-3">
-              {others.map((o) => (
-                <motion.button
-                  type="button"
-                  key={o.recipe.id}
-                  onClick={() => show(results.indexOf(o))}
-                  className="flex-1 overflow-hidden rounded-[3px_10px_4px_3px] bg-[#fff1c2] text-left shadow-[1px_3px_5px_rgba(0,0,0,0.1)]"
-                  style={{ rotate: `${jitter(o.recipe.id, -4, 4)}deg` }}
-                  whileHover={{ rotate: 0, y: -3 }}
-                  whileTap={{ scale: 0.96 }}
-                >
-                  <span className="relative block h-16">
-                    {o.recipe.coverImage ? (
-                      <Photo src={o.recipe.coverImage} alt="" sizes="180px" fallback={<PlatePlaceholder title={o.recipe.title} />} />
-                    ) : (
-                      <PlatePlaceholder title={o.recipe.title} />
-                    )}
-                  </span>
-                  <span className="block p-2">
-                    <span className="block text-[0.72rem] font-bold leading-tight">{o.recipe.title}</span>
-                    <span className="text-[0.62rem] text-ink/50">
-                      {o.match >= 20 ? `相性 ${o.match}%` : "意外な出会いかも？"}
-                    </span>
-                  </span>
-                </motion.button>
+            <div className="mt-4 space-y-6">
+              {others.map((o, i) => (
+                <OtherCard key={o.recipe.id} result={o} main={main} order={i} onPick={() => show(results.indexOf(o))} />
               ))}
             </div>
           </div>
@@ -149,6 +131,65 @@ export function RecipeCard({ results, counts, onRetry }: Props) {
 
       <Lightbox zoomed={zoomed} onClose={() => setZoomed(null)} />
     </motion.div>
+  );
+}
+
+/**
+ * メインとどう近いのかをひとことで。
+ * 2枚が同じ文にならないよう、2枚目は冷蔵庫の材料を先に言う。
+ */
+function whyClose(o: DiagnosisResult, main: DiagnosisResult, fridgeFirst: boolean): string {
+  if (o.match < 20) return "意外な出会いかも？";
+  const sameMood = o.moodReasons.filter((r) => main.moodReasons.includes(r));
+  const mood = sameMood.length ? `「${sameMood.slice(0, 2).join("」「")}」な気分が同じ` : null;
+  const fridge = o.matchedIngredients.length ? `冷蔵庫の ${o.matchedIngredients.slice(0, 2).join("・")} で作れる` : null;
+  return (fridgeFirst ? fridge ?? mood : mood ?? fridge) ?? `⏱ ${o.recipe.minutes}分でできる`;
+}
+
+/** 「こっちも好きかも」の大きなカード。テープで貼った写真つきのメモ */
+function OtherCard({ result, main, order, onPick }: { result: DiagnosisResult; main: DiagnosisResult; order: number; onPick: () => void }) {
+  const { recipe, match } = result;
+  const tilt = (order % 2 ? 1 : -1) * Math.abs(jitter(recipe.id, 0.8, 2.5));
+  return (
+    <motion.button
+      type="button"
+      onClick={onPick}
+      aria-label={`${recipe.title}（相性${match}%）を見る`}
+      className={`relative block bg-[#fff1c2] p-2 pb-3 text-left shadow-[2px_5px_10px_rgba(60,40,20,0.16)] ${order % 2 ? "ml-4 w-[calc(100%-1rem)]" : "w-[calc(100%-0.5rem)]"}`}
+      style={{ borderRadius: order % 2 ? "4px 12px 4px 4px" : "3px 4px 14px 3px" }}
+      initial={{ opacity: 0, y: 30, rotate: 0 }}
+      whileInView={{ opacity: 1, y: 0, rotate: tilt }}
+      whileHover={{ rotate: 0, y: -4 }}
+      whileTap={{ scale: 0.97 }}
+      viewport={{ once: true }}
+      transition={{ type: "spring", stiffness: 160, damping: 16, delay: order * 0.12 }}
+    >
+      {/* テープ */}
+      <span aria-hidden className="absolute -top-2.5 left-1/2 z-10 h-5 w-20 -translate-x-1/2 rotate-[-3deg] bg-white/60 shadow-sm" />
+      <span className="relative block aspect-[16/10] overflow-hidden rounded-[2px]">
+        {recipe.coverImage ? (
+          <Photo src={recipe.coverImage} alt="" sizes="400px" fallback={<PlatePlaceholder title={recipe.title} />} />
+        ) : (
+          <PlatePlaceholder title={recipe.title} />
+        )}
+      </span>
+      <span className="mt-2 flex items-start gap-2 px-1">
+        <span className="min-w-0 flex-1">
+          <span className="font-hand block text-[1.25rem] leading-tight text-ink">{recipe.title}</span>
+          <span className="mt-0.5 block text-[0.72rem] text-ink/70">{whyClose(result, main, order % 2 === 1)}</span>
+        </span>
+        {match >= 20 && (
+          <span className="font-hand shrink-0 -rotate-6 text-xl leading-none text-[var(--tomato)]">
+            {match}
+            <span className="text-xs">%</span>
+          </span>
+        )}
+      </span>
+      <span className="mt-1.5 flex flex-wrap items-center gap-x-3 px-1 text-[0.66rem] text-ink/55">
+        <span>⏱ {recipe.minutes}分</span>
+        <CountryChips tags={recipe.tags} />
+      </span>
+    </motion.button>
   );
 }
 
