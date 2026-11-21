@@ -4,6 +4,7 @@ import { MotionConfig, motion } from "motion/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { CountryChips } from "@/app/_components/CountryChips";
+import { AccountBadge } from "@/app/_components/AccountBadge";
 import { Kitchen } from "@/app/_components/Kitchen";
 import { LikeButton } from "@/app/_components/LikeButton";
 import { Cover, Gallery, IngredientsList, Lightbox, StepsList, type Zoomed } from "@/app/_components/recipe/RecipeParts";
@@ -45,6 +46,7 @@ export function RecipeView({ recipe, likes, commentCount, latest }: Props) {
             <Link href="/diagnosis" className="font-hand text-sm text-ink/60 hover:text-ink">
               ← 冷蔵庫へ
             </Link>
+            <AccountBadge className="ml-auto mr-3" />
             <Link href="/recipes/new" className="font-hand -rotate-2 text-sm text-ink/60 underline decoration-[var(--tomato)] decoration-wavy underline-offset-4 hover:text-ink">
               自分のも貼る
             </Link>

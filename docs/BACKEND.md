@@ -64,6 +64,7 @@ await signOut();                                     // ログアウト
 - 自分のストックは自分にしか見えません
 - 投稿者名（by ○○）に Google の本名は使いません。名前は投稿画面の入力や `updateProfileName` で決めます
 - ログイン後は、ログインボタンを押したページに戻ってきます。そのページでも `useAuth()` を使ってください
+- ログイン画面は `/login`（`app/login`）。`/login?next=/recipes/xxx` で、ログインできたらそのページへ戻る（サイト内のパスだけ。`lib/auth/next.ts` の `safeNext`）。トップ・冷蔵庫・レシピ・コメント・投稿のどの画面にも名札マグネット `app/_components/AccountBadge.tsx` があり、そこから入れる（Supabase 未設定のときも出て、`/login` で仮保存モードだと説明する）
 
 ## フロントからの使い方（投稿）
 
