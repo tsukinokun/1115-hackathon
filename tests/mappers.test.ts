@@ -66,3 +66,17 @@ describe("Supabase の行 → アプリの型", () => {
     expect(toIsoString("2026-11-01T21:00:00.123456+09:00")).toBe("2026-11-01T12:00:00.123Z");
   });
 });
+
+describe("normalizeSupabaseUrl", async () => {
+  const { normalizeSupabaseUrl } = await import("@/lib/supabase/env");
+  it.each([
+    ["https://abc.supabase.co", "https://abc.supabase.co"],
+    ["https://abc.supabase.co/", "https://abc.supabase.co"],
+    ["https://abc.supabase.co/rest/v1/", "https://abc.supabase.co"],
+    ["  https://abc.supabase.co/rest/v1  ", "https://abc.supabase.co"],
+  ])("%s → %s", (raw, want) => expect(normalizeSupabaseUrl(raw)).toBe(want));
+  it("空や URL でないものは null", () => {
+    expect(normalizeSupabaseUrl("")).toBeNull();
+    expect(normalizeSupabaseUrl("abc.supabase.co")).toBeNull();
+  });
+});

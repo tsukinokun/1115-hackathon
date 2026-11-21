@@ -18,12 +18,15 @@ import {
   type QuestionRow,
   type RecipeRow,
 } from "@/lib/supabase/mappers";
-import { PHOTO_BUCKET } from "@/lib/supabase/env";
+import { normalizeSupabaseUrl, PHOTO_BUCKET } from "@/lib/supabase/env";
 
 const env = loadEnv("development", process.cwd(), "");
-const URL_ = env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/+$/, "");
-const KEY = env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const URL_ = normalizeSupabaseUrl(env.NEXT_PUBLIC_SUPABASE_URL);
+const KEY = env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
 if (!URL_ || !KEY) throw new Error(".env.local に NEXT_PUBLIC_SUPABASE_URL と NEXT_PUBLIC_SUPABASE_ANON_KEY を書いてください");
+if (URL_ !== env.NEXT_PUBLIC_SUPABASE_URL?.trim().replace(/\/+$/, "")) {
+  console.warn(`NEXT_PUBLIC_SUPABASE_URL の後ろのパスは無視して ${URL_} を使います`);
+}
 
 const opts = { auth: { persistSession: false, autoRefreshToken: false } } as const;
 const anon = createClient(URL_, KEY, opts);
@@ -54,6 +57,7 @@ describe(`Supabase (${new URL(URL_).host})`, () => {
       expect((i.data as unknown as IngredientRow[]).filter((x) => seeded.has(x.id)).map(toIngredient)).toEqual(ingredientsJson);
     });
     it("未ログインでは書き込めない", async () => {
+      expect((await anon.from("recipes").select("id").limit(1)).error).toBeNull(); // まず接続できていること
       expect((await anon.from("recipes").insert({ title: "x" })).error).not.toBeNull();
       expect((await anon.rpc("create_recipe", { p_title: "x", p_catch: "", p_description: null, p_minutes: 1, p_servings: 1, p_tags: {}, p_cover_image: null, p_ingredients: [], p_steps: [] })).error).not.toBeNull();
     });
