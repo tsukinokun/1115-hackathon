@@ -1,5 +1,5 @@
 {
-  "name": "my-next-app",
+  "name": "minna-no-reizoko-kun",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,10 @@
     "lint": "eslint",
     "test": "vitest run",
     "db:seed": "node scripts/gen-seed.mjs",
-    "check:supabase": "vitest run --config vitest.supabase.config.mts"
+    "check:supabase": "vitest run --config vitest.supabase.config.mts",
+    "vercel:login": "npx --yes vercel@65.12.1 login",
+    "vercel:link": "npx --yes vercel@65.12.1 link",
+    "env:pull": "npx --yes vercel@65.12.1 env pull .env.local --environment=development --yes"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.119.2",

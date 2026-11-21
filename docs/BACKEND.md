@@ -27,8 +27,22 @@
    - すでに schema.sql を流した環境では、`supabase/migrations/20261121_likes_comments.sql`（スキ・コメント）→ `supabase/02_login_stocks.sql` の順に追加で流せばよい（どちらも何度流しても大丈夫）
 2. Authentication → Sign In / Providers → **Allow anonymous sign-ins** を ON にする（投稿に必要）
 3. Google ログイン（ストックに必要）は下の「Google ログインの設定」
-4. `.env.example` を `.env.local` にコピーして URL と anon キーを入れる。Vercel でも同じ2つを Environment Variables に入れる
+4. 接続情報（`NEXT_PUBLIC_SUPABASE_URL` と `NEXT_PUBLIC_SUPABASE_ANON_KEY`）は Vercel の Environment Variables に登録する（Production・Preview・Development すべて）。各自のパソコンでは下の「接続情報を Vercel から取ってくる」で `.env.local` を作る
 5. `data/*.json` を編集したら `npm run db:seed` で `seed.sql` を作り直し、もう一度 SQL Editor で実行する（何度流しても大丈夫。ユーザーの投稿は消えません）
+
+## 接続情報を Vercel から取ってくる
+
+キーを手で書いたり、人から受け取ったりしなくて済むように、Vercel に登録した値を取ってきます。Vercel のプロジェクトにアクセスできる人だけが使えます。
+
+```bash
+npm run vercel:login   # 初回だけ。ブラウザで Vercel にログイン
+npm run vercel:link    # 初回だけ。このフォルダを Vercel のプロジェクトにひも付ける（.vercel/ ができる。Git には入らない）
+npm run env:pull       # Development の環境変数を .env.local に書き出す（Vercel の値が変わったらもう一度）
+```
+
+- `.env.local` と `.vercel/` は Git の管理外です。コミットされません
+- Vercel の値を変えたら、公開版は Redeploy、各自は `npm run env:pull` をやり直す
+- Vercel にアクセスできない人は、`.env.example` を見て `.env.local` を手で作ってもよい
 
 ## Google ログインの設定
 
