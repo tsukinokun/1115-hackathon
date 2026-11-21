@@ -59,6 +59,7 @@ export function DiagnosisFlow({ questions, recipes, ingredients, counts }: Props
   }, [pantry, stock]);
 
   const doorDone = questions.every((q) => answers[q.id]?.length);
+  const line = lineFor(phase, doorDone);
 
   const results = useMemo(
     () => (phase === "result" ? diagnose(questions, answers, pantry, recipes, ingredients) : []),
@@ -101,9 +102,10 @@ export function DiagnosisFlow({ questions, recipes, ingredients, counts }: Props
     <MotionConfig reducedMotion="user">
       <Kitchen>
         <div className="relative mx-auto flex h-dvh w-full max-w-[440px] flex-col items-center px-4 pt-6 pb-3">
-          <Header phase={phase} doorDone={doorDone} />
+          <Header line={line} />
 
           <Fridge
+            line={line}
             phase={phase}
             canOpen={doorDone}
             onOpen={() => setPhase("inside")}
@@ -148,42 +150,61 @@ export function DiagnosisFlow({ questions, recipes, ingredients, counts }: Props
   );
 }
 
-function Header({ phase, doorDone }: { phase: Phase; doorDone: boolean }) {
-  const line =
-    phase === "door"
-      ? doorDone
-        ? "準備OK。取っ手をひっぱって、開けてみよう"
-        : "冷蔵庫のメモに、こたえてね"
-      : phase === "inside"
-        ? "棚は横にスワイプ。使うものは下へ"
-        : phase === "cooking"
-          ? "いいにおいがしてきた…"
-          : "できたよ";
+/** 冷蔵庫くんの台詞（一人称は「ぼく」） */
+function lineFor(phase: Phase, doorDone: boolean): string {
+  switch (phase) {
+    case "door":
+      return doorDone ? "準備OK！取っ手をひっぱって、ぼくを開けて" : "ぼくのメモに、こたえてね";
+    case "inside":
+      return "棚は横にスワイプ。使うものは下のまな板へ";
+    case "cooking":
+      return "ぐつぐつ…いいにおいがしてきた";
+    default:
+      return "できたよ！";
+  }
+}
 
+function Header({ line }: { line: string }) {
   return (
     <div className="mb-3 flex w-full items-end justify-between gap-3">
-      <h1 className="font-hand shrink-0 whitespace-nowrap text-[1.15rem] leading-none text-ink -rotate-2">
-        きょうの
-        <span className="relative mx-0.5 inline-block">
-          すき
+      <h1 className="font-hand shrink-0 whitespace-nowrap pb-1 leading-none text-ink -rotate-2">
+        <span className="text-[0.8rem]">みんなの</span>
+        <span className="relative ml-0.5 inline-block text-[1.2rem]">
+          冷蔵庫くん
           <svg className="absolute -bottom-1.5 left-0 w-full" viewBox="0 0 40 6" aria-hidden>
-            <path d="M1 4 Q 10 1 20 3.5 T 39 2.5" stroke="var(--tomato)" strokeWidth="2" fill="none" strokeLinecap="round" />
+            <path d="M1 4 Q 10 1 20 3.5 T 39 2.5" stroke="var(--tomato)" strokeWidth="1.6" fill="none" strokeLinecap="round" />
           </svg>
         </span>
-        は冷蔵庫に
       </h1>
-      <AnimatePresence mode="wait">
-        <motion.p
-          key={line}
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -6 }}
-          className="text-right text-[0.68rem] leading-snug text-ink/70"
-          aria-live="polite"
-        >
-          {line}
-        </motion.p>
-      </AnimatePresence>
+      <SpeechBubble line={line} />
     </div>
+  );
+}
+
+/** 冷蔵庫くんの吹き出し。しっぽは下の顔のほうを向いていて、台詞は1文字ずつ出る */
+function SpeechBubble({ line }: { line: string }) {
+  return (
+    <AnimatePresence mode="wait">
+      <motion.p
+        key={line}
+        className="font-hand relative mb-1 max-w-[12.5rem] rounded-[14px_16px_14px_12px] border-2 border-ink bg-white px-2.5 py-1 text-[0.74rem] leading-snug text-ink shadow-[2px_2px_0_var(--ink)]"
+        initial={{ opacity: 0, scale: 0.6, rotate: 4, y: 6 }}
+        animate={{ opacity: 1, scale: 1, rotate: -1.5, y: 0 }}
+        exit={{ opacity: 0, scale: 0.85, y: -6, transition: { duration: 0.15 } }}
+        transition={{ type: "spring", stiffness: 420, damping: 18 }}
+        style={{ originX: 0.15, originY: 1 }}
+        aria-live="polite"
+      >
+        {[...line].map((ch, i) => (
+          <motion.span key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.08 + i * 0.07, duration: 0.01 }}>
+            {ch}
+          </motion.span>
+        ))}
+        {/* しっぽ（左下＝冷蔵庫くんの顔のほう） */}
+        <svg aria-hidden viewBox="0 0 16 12" className="absolute -bottom-[11px] left-5 h-3 w-4">
+          <path d="M1 0 L5 11 L13 0" fill="#fff" stroke="var(--ink)" strokeWidth="2" strokeLinejoin="round" />
+        </svg>
+      </motion.p>
+    </AnimatePresence>
   );
 }

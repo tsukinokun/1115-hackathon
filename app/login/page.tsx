@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { LoginView } from "./_components/LoginView";
 
 export const metadata: Metadata = {
-  title: "ログイン | きょうのすき",
+  title: "ログイン",
   description: "Google でログインして、あなたの冷蔵庫の鍵をつくろう。スキなレシピをストックできます。",
   robots: { index: false },
 };

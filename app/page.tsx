@@ -6,7 +6,15 @@ export default function Home() {
     <main className="kitchen-wall relative grid min-h-dvh place-items-center px-6">
       <div className="max-w-xs text-center">
         <p className="text-xs text-ink/60">まだ「好き」に出会えていない誰かへ</p>
-        <h1 className="font-hand mt-2 -rotate-2 text-4xl text-ink">きょうのすき</h1>
+        <h1 className="font-hand mt-2 -rotate-2 text-[2.1rem] leading-tight text-ink">
+          <span className="block text-xl">みんなの</span>
+          <span className="relative inline-block">
+            冷蔵庫くん
+            <svg className="absolute -bottom-1.5 left-0 w-full" viewBox="0 0 40 6" aria-hidden>
+              <path d="M1 4 Q 10 1 20 3.5 T 39 2.5" stroke="var(--tomato)" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+            </svg>
+          </span>
+        </h1>
         <Link
           href="/diagnosis"
           className="font-hand mt-8 inline-block rotate-2 rounded-[16px_10px_18px_8px] bg-[var(--tomato)] px-6 py-3 text-white shadow-[3px_4px_0_var(--ink)] transition-transform hover:-rotate-1 active:translate-x-0.5 active:translate-y-0.5"

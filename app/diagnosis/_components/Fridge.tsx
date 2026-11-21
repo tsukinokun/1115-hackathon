@@ -2,9 +2,10 @@
 
 import { AnimatePresence, motion, useAnimate } from "motion/react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AccountBadge } from "@/app/_components/AccountBadge";
 import type { Phase } from "./DiagnosisFlow";
+import { FridgeFace, type FaceMood } from "./FridgeFace";
 
 type Props = {
   phase: Phase;
@@ -12,16 +13,27 @@ type Props = {
   onOpen: () => void;
   door: React.ReactNode;
   interior: React.ReactNode;
+  /** 冷蔵庫くんがいましゃべっている台詞（口パク用） */
+  line?: string;
 };
 
-export function Fridge({ phase, canOpen, onOpen, door, interior }: Props) {
+const MOODS: Record<Phase, FaceMood> = { door: "smile", inside: "cold", cooking: "excited", result: "happy" };
+
+export function Fridge({ phase, canOpen, onOpen, door, interior, line }: Props) {
   const open = phase === "inside";
   const [doorScope, animateDoor] = useAnimate<HTMLDivElement>();
+  const [pout, setPout] = useState(false);
+  const poutTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  useEffect(() => () => clearTimeout(poutTimer.current), []);
 
   const tryOpen = () => {
-    if (canOpen) onOpen();
-    // まだメモが残っているときは、扉がガタッとするだけ
-    else animateDoor(doorScope.current, { x: [0, -7, 5, -3, 1, 0] }, { duration: 0.45 });
+    if (canOpen) return onOpen();
+    // まだメモが残っているときは、扉がガタッとして、冷蔵庫くんがむっとする
+    animateDoor(doorScope.current, { x: [0, -7, 5, -3, 1, 0] }, { duration: 0.45 });
+    setPout(true);
+    clearTimeout(poutTimer.current);
+    poutTimer.current = setTimeout(() => setPout(false), 1200);
   };
 
   return (
@@ -44,7 +56,7 @@ export function Fridge({ phase, canOpen, onOpen, door, interior }: Props) {
             : { duration: 5.5, repeat: Infinity, ease: "easeInOut" }
         }
       >
-        <Freezer />
+        <Freezer mood={pout ? "pout" : MOODS[phase]} line={line} />
 
         {/* 冷蔵室 */}
         <div className="relative mt-[6px] min-h-0 flex-1 [perspective:1400px]">
@@ -79,15 +91,13 @@ export function Fridge({ phase, canOpen, onOpen, door, interior }: Props) {
   );
 }
 
-function Freezer() {
+function Freezer({ mood, line }: { mood: FaceMood; line?: string }) {
   return (
     <div className="fridge-door relative h-[17%] min-h-[64px] shrink-0 rounded-[24px_30px_8px_10px/24px_26px_8px_10px]">
       {/* 横向きの取っ手 */}
       <div className="absolute bottom-3 left-[18%] h-[7px] w-[38%] rounded-full bg-[var(--chrome)] shadow-[0_2px_0_rgba(0,0,0,0.15)]" />
-      {/* 手書きっぽいロゴ */}
-      <span className="font-hand absolute right-5 top-3 rotate-[4deg] text-[0.7rem] tracking-widest text-ink/45">
-        hiyashi&nbsp;♡
-      </span>
+      {/* 冷蔵庫くんの顔 */}
+      <FridgeFace mood={mood} line={line} className="absolute left-1/2 top-1.5 w-[5.4rem] -translate-x-1/2 -rotate-2" />
       <PostPad />
       {/* 名札（ログイン） */}
       <AccountBadge className="absolute bottom-2 right-4 z-10" />
@@ -101,7 +111,7 @@ function Freezer() {
       {/* 冷凍室に貼りっぱなしのマグネット */}
       <motion.span
         aria-hidden
-        className="absolute left-[64%] top-2 text-xl"
+        className="absolute right-5 top-2 text-xl"
         animate={{ rotate: [-8, -4, -8] }}
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
       >
@@ -220,7 +230,7 @@ function ColdAir({ on }: { on: boolean }) {
   );
 }
 
-const BEEPS = ["ピピッ", "ピピッ…開けっぱなしだよ", "ひんやり〜", "ピピピッ！"];
+const BEEPS = ["ピピッ", "ぼく、開けっぱなしだよ〜", "ひんやり〜", "そろそろ閉めてね！"];
 
 /** 扉を開けたままにしていると鳴る */
 function Beep({ active }: { active: boolean }) {
