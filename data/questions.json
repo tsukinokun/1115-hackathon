@@ -1,0 +1,302 @@
+[
+  {
+    "id": "mood",
+    "kind": "mood",
+    "text": "今日の気分は？",
+    "note": "正直でいいよ",
+    "multiple": false,
+    "priority": 10,
+    "options": [
+      {
+        "id": "cozy",
+        "label": "ほっこりしたい",
+        "emoji": "☕",
+        "tags": {
+          "comfort": 3,
+          "warm": 2
+        }
+      },
+      {
+        "id": "pumped",
+        "label": "元気だしたい",
+        "emoji": "🔥",
+        "tags": {
+          "spicy": 2,
+          "hearty": 2,
+          "umami": 1
+        }
+      },
+      {
+        "id": "refresh",
+        "label": "すっきりしたい",
+        "emoji": "🌿",
+        "tags": {
+          "light": 3,
+          "sour": 1,
+          "cold": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "hunger",
+    "kind": "mood",
+    "text": "おなかの空き具合",
+    "multiple": false,
+    "priority": 9,
+    "options": [
+      {
+        "id": "starving",
+        "label": "ぺこぺこ",
+        "emoji": "🫠",
+        "tags": {
+          "hearty": 3
+        }
+      },
+      {
+        "id": "normal",
+        "label": "ふつう",
+        "emoji": "🙂",
+        "tags": {
+          "comfort": 1
+        }
+      },
+      {
+        "id": "little",
+        "label": "ちょっとだけ",
+        "emoji": "🤏",
+        "tags": {
+          "light": 3
+        }
+      }
+    ]
+  },
+  {
+    "id": "taste",
+    "kind": "mood",
+    "text": "口が欲しがってる味",
+    "note": "直感で！",
+    "multiple": false,
+    "priority": 8,
+    "options": [
+      {
+        "id": "sweet",
+        "label": "あまめ",
+        "emoji": "🍯",
+        "tags": {
+          "sweet": 3
+        }
+      },
+      {
+        "id": "salty",
+        "label": "しょっぱめ",
+        "emoji": "🧂",
+        "tags": {
+          "salty": 2,
+          "umami": 2
+        }
+      },
+      {
+        "id": "spicy",
+        "label": "ピリ辛",
+        "emoji": "🌶️",
+        "tags": {
+          "spicy": 3
+        }
+      },
+      {
+        "id": "sour",
+        "label": "さっぱり酸味",
+        "emoji": "🍋",
+        "tags": {
+          "sour": 3,
+          "light": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "adventure",
+    "kind": "mood",
+    "text": "冒険してみる？",
+    "multiple": false,
+    "priority": 5,
+    "options": [
+      {
+        "id": "usual",
+        "label": "いつもの安心感",
+        "emoji": "🛋️",
+        "tags": {
+          "safe": 3,
+          "comfort": 1
+        }
+      },
+      {
+        "id": "bit",
+        "label": "ちょっとだけ",
+        "emoji": "👣",
+        "tags": {
+          "adventurous": 1,
+          "safe": 1
+        }
+      },
+      {
+        "id": "go",
+        "label": "未知の味へ",
+        "emoji": "🚀",
+        "tags": {
+          "adventurous": 3
+        }
+      }
+    ]
+  },
+  {
+    "id": "time",
+    "kind": "condition",
+    "text": "使える時間",
+    "multiple": false,
+    "priority": 6,
+    "options": [
+      {
+        "id": "5min",
+        "label": "5分",
+        "emoji": "⏱️",
+        "tags": {
+          "quick": 3
+        }
+      },
+      {
+        "id": "15min",
+        "label": "15分くらい",
+        "emoji": "⏲️",
+        "tags": {
+          "quick": 1
+        }
+      },
+      {
+        "id": "slow",
+        "label": "じっくり",
+        "emoji": "🐢",
+        "tags": {
+          "slow": 3
+        }
+      }
+    ]
+  },
+  {
+    "id": "who",
+    "kind": "condition",
+    "text": "だれと食べる？",
+    "multiple": false,
+    "priority": 3,
+    "options": [
+      {
+        "id": "solo",
+        "label": "ひとりで",
+        "emoji": "🧍",
+        "tags": {
+          "solo": 2
+        }
+      },
+      {
+        "id": "share",
+        "label": "だれかと",
+        "emoji": "🧑‍🤝‍🧑",
+        "tags": {
+          "share": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "temp",
+    "kind": "condition",
+    "text": "あったかい？ つめたい？",
+    "multiple": false,
+    "priority": 7,
+    "options": [
+      {
+        "id": "hot",
+        "label": "あったかい",
+        "emoji": "♨️",
+        "tags": {
+          "warm": 3
+        }
+      },
+      {
+        "id": "cool",
+        "label": "つめたい",
+        "emoji": "🧊",
+        "tags": {
+          "cold": 3
+        }
+      },
+      {
+        "id": "any",
+        "label": "どっちでも",
+        "emoji": "🤷",
+        "tags": {}
+      }
+    ]
+  },
+  {
+    "id": "week",
+    "kind": "mood",
+    "text": "今週のがんばり度",
+    "note": "自分をほめよう",
+    "multiple": false,
+    "priority": 3,
+    "options": [
+      {
+        "id": "tired",
+        "label": "へとへと",
+        "emoji": "🫥",
+        "tags": {
+          "comfort": 2,
+          "quick": 1
+        }
+      },
+      {
+        "id": "so-so",
+        "label": "まあまあ",
+        "emoji": "😌",
+        "tags": {
+          "safe": 1
+        }
+      },
+      {
+        "id": "fired",
+        "label": "燃えてる",
+        "emoji": "💪",
+        "tags": {
+          "hearty": 2,
+          "spicy": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "smell",
+    "kind": "condition",
+    "text": "このあと人に会う？",
+    "multiple": false,
+    "priority": 3,
+    "options": [
+      {
+        "id": "meet",
+        "label": "会う",
+        "tags": {
+          "light": 1
+        }
+      },
+      {
+        "id": "home",
+        "label": "もう家から出ない",
+        "tags": {
+          "adventurous": 1,
+          "umami": 1
+        }
+      }
+    ]
+  }
+]
