@@ -113,3 +113,18 @@ export type DiagnosisResult = {
   /** 手持ちと一致したレシピ材料の名前 */
   matchedIngredients: string[];
 };
+
+/* ---------- スキ・コメント ---------- */
+
+/** recipe_comments テーブル（作者名つき） */
+export type RecipeComment = {
+  id: string;
+  recipeId: string;
+  author: { name: string };
+  body: string;
+  photo?: string | null;
+  createdAt: string;
+};
+
+/** レシピごとのスキとコメントの数 */
+export type ReactionCounts = Record<string, { likes: number; comments: number }>;

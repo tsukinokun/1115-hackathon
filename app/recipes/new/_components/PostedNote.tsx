@@ -73,6 +73,14 @@ export function PostedNote({ result, onAgain }: Props) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.6 }}
       >
+        {result.mode === "backend" && (
+          <Link
+            href={`/recipes/${encodeURIComponent(result.id)}`}
+            className="font-hand -rotate-1 rounded-[12px_16px_10px_18px] bg-[#3c8dde] px-5 py-2.5 text-white shadow-[3px_4px_0_var(--ink)]"
+          >
+            貼ったレシピを見る
+          </Link>
+        )}
         <Link
           href="/diagnosis"
           className="font-hand rotate-1 rounded-[16px_10px_18px_8px] bg-[var(--tomato)] px-5 py-2.5 text-white shadow-[3px_4px_0_var(--ink)]"
