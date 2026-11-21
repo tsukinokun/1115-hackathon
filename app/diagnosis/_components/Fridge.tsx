@@ -3,6 +3,7 @@
 import { AnimatePresence, motion, useAnimate } from "motion/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { AccountBadge } from "@/app/_components/AccountBadge";
 import type { Phase } from "./DiagnosisFlow";
 
 type Props = {
@@ -88,10 +89,12 @@ function Freezer() {
         hiyashi&nbsp;♡
       </span>
       <PostPad />
+      {/* 名札（ログイン） */}
+      <AccountBadge className="absolute bottom-2 right-4 z-10" />
       {/* 動作中ランプ */}
       <motion.span
         aria-hidden
-        className="absolute bottom-3.5 right-6 h-1.5 w-1.5 rounded-full bg-[#5fd38d]"
+        className="absolute bottom-3.5 left-[60%] h-1.5 w-1.5 rounded-full bg-[#5fd38d]"
         animate={{ opacity: [1, 0.25, 1] }}
         transition={{ duration: 2.4, repeat: Infinity, times: [0, 0.1, 0.2] }}
       />

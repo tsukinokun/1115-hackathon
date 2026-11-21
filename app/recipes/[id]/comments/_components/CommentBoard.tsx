@@ -3,6 +3,7 @@
 import { AnimatePresence, MotionConfig, motion } from "motion/react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { AccountBadge } from "@/app/_components/AccountBadge";
 import { Kitchen } from "@/app/_components/Kitchen";
 import { Photo } from "@/app/_components/Photo";
 import { Lightbox, type Zoomed } from "@/app/_components/recipe/RecipeParts";
@@ -73,6 +74,8 @@ export function CommentBoard({ recipe, comments }: Props) {
 
           {/* 冷蔵庫の扉＝コメント板 */}
           <div className="fridge-door relative min-h-[60dvh] rounded-[18px_22px_12px_14px] px-3 pb-6 pt-6">
+            {/* 名札（ログイン）。扉のふちに貼ってある */}
+            <AccountBadge className="absolute -top-3 left-4 z-20" />
             <span aria-hidden className="absolute right-2.5 top-[10%] h-[28%] max-h-60 w-[9px] rounded-full bg-[var(--chrome)] shadow-[1px_2px_0_rgba(0,0,0,0.18)]" />
             {all.length === 0 && (
               <motion.p

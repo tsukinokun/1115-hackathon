@@ -3,6 +3,7 @@
 import { AnimatePresence, MotionConfig, motion } from "motion/react";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { AccountBadge } from "@/app/_components/AccountBadge";
 import { Kitchen } from "@/app/_components/Kitchen";
 import type { Ingredient, Question } from "@/lib/types";
 import { LIMITS } from "../_lib/limits";
@@ -121,6 +122,7 @@ export function RecipeForm({ questions, ingredients }: Props) {
             <Link href="/diagnosis" className="font-hand text-sm text-ink/60 hover:text-ink">
               ← 冷蔵庫へ
             </Link>
+            <AccountBadge className="ml-auto mr-3" />
             <h1 className="font-hand -rotate-2 text-[1.25rem] text-ink">
               レシピを
               <span className="relative mx-0.5 inline-block">

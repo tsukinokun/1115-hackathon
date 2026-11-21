@@ -1,8 +1,9 @@
 import Link from "next/link";
+import { AccountBadge } from "./_components/AccountBadge";
 
 export default function Home() {
   return (
-    <main className="kitchen-wall grid min-h-dvh place-items-center px-6">
+    <main className="kitchen-wall relative grid min-h-dvh place-items-center px-6">
       <div className="max-w-xs text-center">
         <p className="text-xs text-ink/60">まだ「好き」に出会えていない誰かへ</p>
         <h1 className="font-hand mt-2 -rotate-2 text-4xl text-ink">きょうのすき</h1>
@@ -19,6 +20,8 @@ export default function Home() {
           自分のレシピを冷蔵庫に貼る
         </Link>
       </div>
+      <AccountBadge className="absolute right-4 top-4" />
+
     </main>
   );
 }
